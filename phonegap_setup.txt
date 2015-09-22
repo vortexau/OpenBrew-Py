@@ -1,0 +1,48 @@
+Linux: 
+apt-get install nodejs
+pacman -S nodejs
+yum install nodejs 
+ 
+Mac: Homebrew
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew update
+brew install node
+brew install ant
+npm install -g ios-sim
+
+sudo npm install -g phonegap
+sudo npm install -g cordova
+
+Install Android SDK
+Ensure 'android' is in the path.
+
+Mac: Install Xcode, and Xcode command line tools.
+
+
+phonegap create myapp
+cd myapp
+
+cordova platform add ios
+cordova platform add android
+cordova platform add browser
+
+cordova build ios
+-> open myapp/platforms/ios/myapp.xcodeproj
+-> Xcode -> Product > Build for > Testing
+-> Click Play to run the app in the emulator
+
+cordova build android
+-> open Eclipse
+-> File > Import
+-> Browse to myapp/platforms/android.
+-> Two projects listed.
+-> Click OK. 
+-> Click Finish.
+-> Create AVD (once off)
+-> Project > Clean > Select myapp > OK.
+-> Run as > Android Application
+
+Running in the browser:
+cd myapp
+cordova run browser
+Starts local web server and runs the app.
