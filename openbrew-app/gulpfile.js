@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var debug = require('gulp-debug');
 var inject = require('gulp-inject');
+var del = require('del');
  
 gulp.task('default', function () {
     return gulp.src('foo.js')
@@ -8,7 +9,11 @@ gulp.task('default', function () {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('build', function () {
+gulp.task('clean', function(cb) {
+    del(['dist/'], cb)
+});
+
+gulp.task('build', ['clean'], function () {
 
     // build from the MVC directories into dist.
     return gulp.src('src/www/index.html')
