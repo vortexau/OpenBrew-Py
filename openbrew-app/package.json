@@ -1,0 +1,22 @@
+{
+  "name": "OpenBrew-App",
+  "version": "0.0.1",
+  "description": "An app to control my home brewery and fermenters",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vortexau/OpenBrew-Py"
+  },
+  "author": "James McLean <james.mclean@gmail.com>",
+  "devDependencies": {
+    "cordova-lib": "^0.21.6",
+    "del": "^2.0.2",
+    "gulp": "^3.8.7",
+    "gulp-debug": "^2.1.2",
+    "gulp-inject": "^3.0.0",
+    "gulp-jshint": "^1.8.4"
+  },
+  "dependencies": {
+    "cordova-android": "^3.5.1",
+    "cordova-ios": "^3.5.0"
+  }
+}
