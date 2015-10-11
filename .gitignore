@@ -23,6 +23,7 @@ Android/assets/
 # generated files
 bin/
 gen/
+dist/
 
 # Local configuration file (sdk path, etc)
 local.properties
