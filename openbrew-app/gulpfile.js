@@ -39,7 +39,17 @@ gulp.task('buildindex', function () {
 
 });
 
-gulp.task('build', ['clean','buildindex'], function () {
+gulp.task('buildcss', function() {
+
+});
+
+
+gulp.task('cordova', function() {
+
+});
+
+
+gulp.task('build', ['clean', 'buildindex', 'buildcss', 'cordova'], function () {
 
 
 });
