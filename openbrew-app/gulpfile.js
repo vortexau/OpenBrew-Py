@@ -6,11 +6,11 @@ var del = require('del');
 gulp.task('default', function () {
     return gulp.src('foo.js')
         .pipe(debug({title: 'debug:'}))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('build'));
 });
 
 gulp.task('clean', function(cb) {
-    del(['dist/'], cb)
+    del(['build'], cb)
 });
 
 gulp.task('buildindex', function () {
@@ -35,7 +35,7 @@ gulp.task('buildindex', function () {
                 return file.contents.toString('utf8')
             }
         }))
-        .pipe(gulp.dest('dist/www'));
+        .pipe(gulp.dest('build/www'));
 
 });
 
