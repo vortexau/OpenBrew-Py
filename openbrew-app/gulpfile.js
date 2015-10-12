@@ -13,7 +13,7 @@ gulp.task('clean', function(cb) {
     del(['dist/'], cb)
 });
 
-gulp.task('build', function () {
+gulp.task('buildindex', function () {
 
     // build from the MVC directories into dist.
     return gulp.src('src/www/index.html')
@@ -38,3 +38,10 @@ gulp.task('build', function () {
         .pipe(gulp.dest('dist/www'));
 
 });
+
+gulp.task('build', ['clean','buildindex'], function () {
+
+
+});
+
+
