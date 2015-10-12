@@ -2,6 +2,19 @@ var gulp = require('gulp');
 var debug = require('gulp-debug');
 var inject = require('gulp-inject');
 var del = require('del');
+var cordovalib = require('cordova-lib');
+
+
+
+var packages = require('./package.json');
+var cordova = cordovalib.cordova.raw;
+var builddir = path.join(__dirname, 'build');
+
+
+
+
+
+
  
 gulp.task('default', function () {
     return gulp.src('foo.js')
@@ -12,6 +25,9 @@ gulp.task('default', function () {
 gulp.task('clean', function(cb) {
     del(['build'], cb)
 });
+
+
+
 
 gulp.task('buildindex', function () {
 
@@ -45,6 +61,8 @@ gulp.task('buildcss', function() {
 
 
 gulp.task('cordova', function() {
+    // add the target devices to the application in builddir
+
 
 });
 
