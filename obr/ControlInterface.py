@@ -7,7 +7,7 @@ import cherrypy
 class BaseWebService:
     @cherrypy.expose
     def index(self):
-        return file('index.html')
+        return file('www/index.html')
 
 class SensorsWebService:
      exposed = True
