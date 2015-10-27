@@ -3,3 +3,4 @@
 /storage/framework/cache
 .env
 .env.example
+auth.json
