@@ -11,6 +11,8 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->welcome();
-});
+#$app->get('/', function () use ($app) {
+#    return $app->welcome();
+#});
+
+$app->get('/', ['uses' => 'kegeratorController@kegeratorMainDisplay', 'as' => 'main.display']);
