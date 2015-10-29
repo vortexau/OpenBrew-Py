@@ -9,13 +9,9 @@
 
 </head>
 <body>
-                <div class="container">
-                    <div class="content">
-                        <div class="title">OpenBrew - Kegerator</div>
-                    </div>
-                </div>
+<div class="title">BeerPig Brewing Co.</div>
 
-<div>
+<div class="kegTable">
     <div class="kegRow">
         <div class="kegCol">Keg 1</div>
         <div class="kegCol">Keg 2</div>

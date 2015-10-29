@@ -2,10 +2,10 @@
                         margin: 0;
                         padding: 0;
                         width: 100%;
-                        height: 100%;
+                        min-height: 100%;
                         //color: #B0BEC5;
 			color: #ffffff;
-			background: #cccccc;
+			background: #5c5c5c;
                         display: table;
                         font-weight: 100;
                         font-family: 'Lato';
@@ -30,3 +30,21 @@
                     .quote {
                         font-size: 24px;
                     }
+
+.kegTable {
+    display: table;
+    width: 100%;
+}
+
+.kegRow {
+    display: table-row;
+    width: auto;
+}
+
+.kegCol {
+    display: table-cell;
+    width: auto;
+    border-right: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
+    padding: 5px;
+}
