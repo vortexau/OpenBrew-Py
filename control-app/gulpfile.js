@@ -63,8 +63,12 @@ gulp.task('build-openbrew-js', function() {
 });
 
 
-gulp.task('cordova', function() {
+gulp.task('cordova', function(cb) {
     // add the target devices to the application in builddir
+    return gulp.src(builddir)
+    .pipe(cordova.build({
+        "platforms": ["android","ios","browser"],
+    }, cb));
 
 
 });
