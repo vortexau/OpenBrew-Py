@@ -2,15 +2,23 @@ var gulp = require('gulp');
 var debug = require('gulp-debug');
 var inject = require('gulp-inject');
 var del = require('del');
-var cordovalib = require('cordova-lib');
 var fs = require('fs');
 var path = require('path');
 var concat = require('gulp-concat');
 var runSequence = require('run-sequence');
+var create = require('gulp-cordova-create');
+var plugin = require('gulp-cordova-plugin');
+var pref = require('gulp-cordova-preference');
+var android = require('gulp-cordova-build-android');
+var ios = require('gulp-cordova-build-ios');
 
 var packages = require('./package.json');
-var cordova = cordovalib.cordova.raw;
 var builddir = path.join(__dirname, 'build');
+//var releasedir = path.join(__dirname, 'release');
+var releasedir = 'release';
+
+var platforms = ['android'];  // List like ['cordova-ios', 'cordova-android']
+var platform_dirs = ['cordova-ios','cordova-android'];  // List of subdirs with platform files under node_moduels
  
 gulp.task('default', function () {
     return gulp.src('foo.js')
@@ -19,7 +27,7 @@ gulp.task('default', function () {
 });
 
 gulp.task('clean', function(cb) {
-    return del(builddir);
+    return del([builddir, releasedir]);
     err(cb);
 });
 
@@ -63,19 +71,23 @@ gulp.task('build-openbrew-js', function() {
 });
 
 
-gulp.task('cordova', function(cb) {
-    // add the target devices to the application in builddir
-    return gulp.src(builddir)
-    .pipe(cordova.build({
-        "platforms": ["android","ios","browser"],
-    }, cb));
+gulp.task('cordova', function() {
 
+    var options = {
+        dir: releasedir,
+        id: packages.appid,
+        name: packages.name
+    };
+
+    return gulp.src(builddir)
+        .pipe(debug())
+        .pipe(create(options))
+        .pipe(android());
 
 });
 
-
 gulp.task('build', function (callback) {
-    runSequence('clean',
+    runSequence('clean', 
         ['build-onsen-libs', 'build-openbrew-css', 'build-openbrew-js','buildindex'],
         'cordova',
         callback);
