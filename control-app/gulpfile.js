@@ -6,7 +6,7 @@ var cordovalib = require('cordova-lib');
 var fs = require('fs');
 var path = require('path');
 var concat = require('gulp-concat');
-var clean = require('gulp-clean');
+var runSequence = require('run-sequence');
 
 var packages = require('./package.json');
 var cordova = cordovalib.cordova.raw;
@@ -19,8 +19,8 @@ gulp.task('default', function () {
 });
 
 gulp.task('clean', function(cb) {
-    return gulp.src(builddir)
-        .pipe(clean());
+    return del(builddir);
+    err(cb);
 });
 
 gulp.task('buildindex', function () {
@@ -74,8 +74,11 @@ gulp.task('cordova', function(cb) {
 });
 
 
-gulp.task('build', ['clean', 'build-onsen-libs', 'build-openbrew-css', 'build-openbrew-js','buildindex', 'cordova'], function () {
-
+gulp.task('build', function (callback) {
+    runSequence('clean',
+        ['build-onsen-libs', 'build-openbrew-css', 'build-openbrew-js','buildindex'],
+        'cordova',
+        callback);
 
 });
 

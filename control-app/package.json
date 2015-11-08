@@ -11,11 +11,11 @@
     "cordova-lib": "^0.21.6",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
+    "gulp-concat": "^2.5.0",
     "gulp-debug": "^2.1.2",
     "gulp-inject": "^3.0.0",
     "gulp-jshint": "^1.8.4",
-    "gulp-concat": "^2.5.0",
-    "gulp-clean": "^0.3.1"
+    "run-sequence": "^1.1.4"
   },
   "dependencies": {
     "cordova-android": "^3.5.1",
