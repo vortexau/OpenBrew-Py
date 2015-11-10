@@ -1,0 +1,37 @@
+    <ons-template id="settings.html">
+	<ons-page>
+	    <ons-toolbar>
+	        <div class="left">
+	                    <ons-toolbar-button ng-click="menu.toggle()">
+	                        <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+	                    </ons-toolbar-button>
+	        </div>
+	        <div class="center">Application Settings</div>
+	    </ons-toolbar>
+
+<div style="text-align: left">
+
+    <section style="padding: 8px">
+      Brewery Address
+      <input type="text" class="text-input" ng-model="breweryaddress" placeholder="Brewery Address" style="display: block; width: 100%">
+    </section>
+
+    <section style="padding: 8px">
+      Fermentor Address
+      <input type="text" class="text-input" ng-model="fermentoraddress" placeholder="Fermentor Address" style="display: block; width: 100%">
+    </section>
+
+    <section style="padding: 8px">
+      Kegerator Address
+      <input type="text" class="text-input" ng-model="kegeratoraddress" placeholder="Kegerator Address" style="display: block; width: 100%">
+    </section>
+
+    <section style="padding: 0 8px 8px">
+      <ons-button modifier="large">Submit</ons-button>
+    </section>
+
+  </div>
+
+	</ons-page>
+    </ons-template>
+
