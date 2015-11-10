@@ -11,6 +11,8 @@ var plugin = require('gulp-cordova-plugin');
 var pref = require('gulp-cordova-preference');
 var android = require('gulp-cordova-build-android');
 var ios = require('gulp-cordova-build-ios');
+var description = require('gulp-cordova-description');
+var icon = require('gulp-cordova-icon');
 
 var packages = require('./package.json');
 var builddir = path.join(__dirname, 'build');
@@ -82,6 +84,8 @@ gulp.task('cordova', function() {
     return gulp.src(builddir)
         .pipe(debug())
         .pipe(create(options))
+        .pipe(description(packages.description))
+        .pipe(icon(releasedir + '/www/res/icon.png'))
         .pipe(android());
 
 });
