@@ -20,6 +20,7 @@
     "gulp-debug": "^2.1.2",
     "gulp-inject": "^3.0.0",
     "gulp-jshint": "^1.8.4",
+    "rimraf": "^2.4.3",
     "run-sequence": "^1.1.4"
   },
   "dependencies": {
