@@ -57,7 +57,7 @@ gulp.task('buildindex', function () {
 });
 
 gulp.task('build-onsen-libs', function() {
-    return gulp.src(['src/hooks/**/*','src/icon.png', 'src/www/lib/**/*','src/res/**/*'], {base:"src/www"})
+    return gulp.src(['src/hooks/**/*','src/www/icon.png', 'src/www/lib/**/*','src/res/**/*'], {base:"src/www"})
         .pipe(gulp.dest(builddir + '/www/'));
 });
 
@@ -72,6 +72,12 @@ gulp.task('build-openbrew-js', function() {
 
 });
 
+gulp.task('junk', function() {
+    return gulp.src(builddir + '/icon.png')
+    .pipe(gulp.dest(releasedir))
+    .pipe(debug());
+});
+
 gulp.task('cordova', function() {
 
     var options = {
@@ -84,7 +90,7 @@ gulp.task('cordova', function() {
         .pipe(debug())
         .pipe(create(options))
         .pipe(description(packages.description))
-        .pipe(icon(builddir + '/res/icon.png'))
+        .pipe(icon(releasedir + '/www/icon.png'))
         .pipe(android());
 
 });
