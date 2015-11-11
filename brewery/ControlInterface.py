@@ -54,6 +54,12 @@ class ControlInterface:
         self.logger = logger
         self.dbconn = dbconn
         
+        self.server.conf = {
+            server.socket_host: '0.0.0.0',
+            server.socket_port: 1469
+
+        }
+
         self.conf = {
             '/': {
                'tools.sessions.on': True,

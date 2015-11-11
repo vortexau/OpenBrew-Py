@@ -27,7 +27,7 @@ class BreweryControl():
     dbconn  = None
     logger  = None
 
-    strike_in_mlt = False
+    strike_in_mlt = True 
 
     def __init__(self):
         print("OpenBrew init.")
