@@ -53,7 +53,8 @@ class ControlInterface:
     def __init__(self, logger, dbconn):
         self.logger = logger
         self.dbconn = dbconn
-        
+       
+        # Also: www.zacwitte.com/using-ssl-https-with-cherrypy-3-2-0-example 
         self.server.conf = {
             server.socket_host: '0.0.0.0',
             server.socket_port: 1469
