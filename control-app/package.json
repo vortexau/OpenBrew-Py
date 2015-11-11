@@ -6,9 +6,9 @@
     "type": "git",
     "url": "https://github.com/vortexau/OpenBrew-Py"
   },
-  "appid": "au.id.vortex.openbrew.app",
+  "appid": "au.id.vortex.openbrew.app/openbrew",
   "author": "James McLean <james.mclean@gmail.com>",
-  "license": "Apache version 2.0",
+  "license": "Beerware",
   "devDependencies": {
     "cordova-icon": "^0.3.0",
     "del": "^2.0.2",
@@ -30,5 +30,10 @@
   "dependencies": {
     "cordova-android": "^3.5.1",
     "cordova-ios": "^3.5.0"
-  }
+  },
+  "cordovaPlugins": [
+    "org.apache.cordova.network-information",
+    "org.apache.cordova.splashscreen",
+    "org.apache.cordova.vibration"
+  ]
 }
