@@ -78,6 +78,22 @@ gulp.task('junk', function() {
     .pipe(debug());
 });
 
+gulp.task('ios', function() {
+    if(process.platform == 'darwin') {
+        console.log('Detected DarwinOS. Building iOS app');
+        return gulp.src(releasedir)
+	    .path(ios());
+    } else {
+        console.log('Detected ' + process.platform + ' skipping iOS build');
+        return true;
+    }
+});
+
+gulp.task('android', function() {
+    return gulp.src(releasedir)
+        .pipe(android());
+});
+
 gulp.task('cordova', function() {
 
     var options = {
@@ -95,8 +111,7 @@ gulp.task('cordova', function() {
         .pipe(debug())
         .pipe(create(options))
         .pipe(description(packages.description))
-        .pipe(icon(releasedir + '/www/icon.png'))
-        .pipe(android());
+        .pipe(icon(releasedir + '/www/icon.png'));
 
 });
 
@@ -104,6 +119,8 @@ gulp.task('build', function (callback) {
     runSequence('clean', 
         ['build-onsen-libs', 'build-openbrew-css', 'build-openbrew-js','buildindex'],
         'cordova',
+        'android',
+	'ios',
         callback);
 
 });
