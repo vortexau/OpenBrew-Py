@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/vortexau/OpenBrew-Py"
   },
-  "appid": "au.id.vortex.openbrew.app/openbrew",
+  "appid": "au.id.vortex.openbrew.app",
   "author": "James McLean <james.mclean@gmail.com>",
   "license": "Beerware",
   "devDependencies": {

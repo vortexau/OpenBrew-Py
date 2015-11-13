@@ -86,6 +86,11 @@ gulp.task('cordova', function() {
         name: packages.name
     };
 
+    console.log('Release dir:' + releasedir);
+    console.log('Packages AppID: ' + packages.appid);
+    console.log('Package Name: ' + packages.name);
+    console.log('Package Desc: ' + packages.description);
+
     return gulp.src(builddir)
         .pipe(debug())
         .pipe(create(options))
