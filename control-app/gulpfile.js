@@ -80,9 +80,10 @@ gulp.task('junk', function() {
 
 gulp.task('ios', function() {
     if(process.platform == 'darwin') {
-        console.log('Detected DarwinOS. Building iOS app');
+        //console.log('Detected DarwinOS. Building iOS app');
         return gulp.src(releasedir)
-	    .path(ios());
+            .path(debug())
+	    .path(ios(true));
     } else {
         console.log('Detected ' + process.platform + ' skipping iOS build');
         return true;
