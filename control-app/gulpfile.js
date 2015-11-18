@@ -107,12 +107,14 @@ gulp.task('cordova', function() {
     console.log('Packages AppID: ' + packages.appid);
     console.log('Package Name: ' + packages.name);
     console.log('Package Desc: ' + packages.description);
+    console.log('Plugins: ' + packages.cordovaPlugins);
 
     return gulp.src(builddir)
         .pipe(debug())
         .pipe(create(options))
         .pipe(description(packages.description))
-        .pipe(icon(releasedir + '/www/icon.png'));
+        .pipe(icon(releasedir + '/www/icon.png'))
+        .pipe(plugin(packages.cordovaPlugins));
 
 });
 
