@@ -15,6 +15,10 @@ class FermentControl:
     def __init__(self):
         print("OpenBrew - Ferment")
 
+        # Setup the config parser
+        self.config = ConfigParser()
+        self.config.readfp(open('config.cfg'))
+
 
     def run(self):
         print("Running...")
