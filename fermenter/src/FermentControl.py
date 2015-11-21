@@ -23,8 +23,8 @@ class FermentControl:
     def run(self):
         print("Running...")
 
-        self.sensor_logger = SensorLogger()
-        self.fridge_control = FridgeControl()
+        self.sensor_logger = SensorLogger(self.config)
+        self.fridge_control = FridgeControl(self.config)
 
         children = []
 
