@@ -1,5 +1,5 @@
 
-import time 
+import time, os
 
 class SensorLogger:
 
@@ -27,7 +27,13 @@ class SensorLogger:
 
         while True:
            for k, v in sensors.iteritems():
-               print k, v 
+               thisSensor = directory + v + '/' + sensor_file
+               print 'Sensor: ' + k
+               print 'File: ' + thisSensor
+               if os.path.isfile(thisSensor):
+                   print thisSensor + ' is valid. Reading..'
+               else:
+                   print thisSensor + ' WAS NOT FOUND!'
 
            print readwait
            time.sleep(float(readwait))
