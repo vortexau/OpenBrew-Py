@@ -51,9 +51,10 @@ class SensorLogger:
 
             # Look for the string 't=18062'
             p = re.compile('t=\d+', re.MULTILINE)
-            if p.search(fileContent):
+            m = p.search(fileContent)
+            if m:
                 # found a valid temp string.
-                print _.group(0)
+                print m.group(0)
                 # make sure it's not t=85000 (sensor default state)
 
 
