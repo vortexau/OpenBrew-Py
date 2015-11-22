@@ -32,6 +32,7 @@ class SensorLogger:
                print 'File: ' + thisSensor
                if os.path.isfile(thisSensor):
                    sensorTemp = self.getSensorTemp(thisSensor)
+                   print 'Temp is: ' + sensorTemp
                else:
                    print thisSensor + ' WAS NOT FOUND!'
 
@@ -54,8 +55,13 @@ class SensorLogger:
             m = p.search(fileContent)
             if m:
                 # found a valid temp string.
-                print m.group(0)
-                # make sure it's not t=85000 (sensor default state)
+                fulltemp = m.group(0)
+                if fulltemp is 't=85000':
+                    return 0.000
+
+                temp = fulltemp.split('=')
+                actualTemp = float(temp[1]) / 1000
+                return "{:3.3f}".format(actualTemp)
 
 
 
