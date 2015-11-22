@@ -1,5 +1,5 @@
 
-import time, os
+import time, os, re
 
 class SensorLogger:
 
@@ -31,10 +31,30 @@ class SensorLogger:
                print 'Sensor: ' + k
                print 'File: ' + thisSensor
                if os.path.isfile(thisSensor):
-                   print thisSensor + ' is valid. Reading..'
+                   sensorTemp = self.getSensorTemp(thisSensor)
                else:
                    print thisSensor + ' WAS NOT FOUND!'
 
            print readwait
            time.sleep(float(readwait))
+
+    def getSensorTemp(self, sensorFile):
+        f = open(sensorFile, 'r')
+        fileContent = f.read()
+
+        return self.getTemp(fileContent)
+
+    def getTemp(self, fileContent):
+        # Look for the string YES
+        if re.search('[YES]', fileContent):
+            # Valid file content
+
+            # Look for the string 't=18062'
+            p = re.compile('t=\d+', re.MULTILINE)
+            if p.search(fileContent):
+                # found a valid temp string.
+                print _.group(0)
+                # make sure it's not t=85000 (sensor default state)
+
+
 
