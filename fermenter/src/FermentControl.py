@@ -1,5 +1,5 @@
 
-import os
+import os, time, logging, psycopg2
 
 from configparser import ConfigParser
 from SensorLogger import SensorLogger
@@ -19,12 +19,16 @@ class FermentControl:
         self.config = ConfigParser()
         self.config.readfp(open('config.cfg'))
 
+        # Make sure we have a connection to the database
+        # http://initd.org/psycopg/docs/
+        dsn = "host=" + self.config['database']['host'] + " dbname=" + self.config['database']['database'] + " user=" + self.config['database']['username'] + " password=" + self.config['database']['password']
+        self.dbconn = psycopg2.connect(dsn)
 
     def run(self):
         print("Running...")
 
-        self.sensor_logger = SensorLogger(self.config)
-        self.fridge_control = FridgeControl(self.config)
+        self.sensor_logger = SensorLogger(self.config, self.dbconn)
+        self.fridge_control = FridgeControl(self.config, self.dbconn)
 
         children = []
 

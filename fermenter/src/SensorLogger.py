@@ -4,9 +4,11 @@ import time, os, re
 class SensorLogger:
 
     config = None
+    dbconn = None
 
-    def __init__(self, config):
+    def __init__(self, config, dbconn):
         self.config = config
+        self.dbconn = dbconn
 
     def actions(self):
         print 'Actions for SensorLogger'
@@ -33,11 +35,16 @@ class SensorLogger:
                if os.path.isfile(thisSensor):
                    sensorTemp = self.getSensorTemp(thisSensor)
                    print 'Temp is: ' + sensorTemp
+                   self.logSensorTemp(sensorTemp, k)
+                   print '----'
                else:
                    print thisSensor + ' WAS NOT FOUND!'
 
            print readwait
            time.sleep(float(readwait))
+
+    def logSensorTemp(sensorTemp, sensorName):
+        # log the sensor value to the database here.
 
     def getSensorTemp(self, sensorFile):
         f = open(sensorFile, 'r')
