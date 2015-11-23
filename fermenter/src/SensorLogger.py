@@ -43,8 +43,29 @@ class SensorLogger:
            print readwait
            time.sleep(float(readwait))
 
-    def logSensorTemp(sensorTemp, sensorName):
+    def logSensorTemp(self, sensorTemp, sensorName):
         # log the sensor value to the database here.
+        print sensorTemp, sensorName
+        if sensorName is 'ambient':
+            sensorid = 6
+        elif sensorName is 'ambient_high':
+            sensorid = 11
+        elif sensorName is 'fridge1_air':
+            sensorid = 7 
+        elif sensorName is 'fridge1_wort':
+            sensorid = 8 
+        elif sensorName is 'fridge2_air':
+            sensorid = 9 
+        elif sensorName is 'fridge2_wort':
+            sensorid = 10
+
+        cur = self.dbconn.cursor()
+        cur.execute(
+            """INSERT INTO readings (value, time, sensorid)
+               VALUES (%(value)s, %(time)s, %(sensorid)s);""",
+            {'value': sensorTemp, 'time': time.time(), 'sensorid': sensorid}) 
+        self.dbconn.commit()
+        cur.close()
 
     def getSensorTemp(self, sensorFile):
         f = open(sensorFile, 'r')
