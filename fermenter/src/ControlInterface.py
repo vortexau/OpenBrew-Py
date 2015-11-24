@@ -22,30 +22,21 @@ class SensorsWebService:
      def all_sensor_readings():
          return json.dumps('sensor_values')
          
-class PumpsWebService:
-     exposed = True
-
-     @cherrypy.tools.accept(media='application/json')
-     @cherrypy.tools.json_in()
-     @cherrypy.tools.json_out()
-     def GET(self):
-         return self.all_pump_status() # return all the pumps and their status
-
-     def all_pump_status(self):
-         # object with the status of all pumps here.
-         return json.dumps('pump_status_will_go_here')         
-
 class ControlInterface:
+  
+    logger = None
+    dbconn = None
+    config = None
 
-    def __init__(self, logger, dbconn):
+    def __init__(self, logger, dbconn, config):
         self.logger = logger
         self.dbconn = dbconn
+        self.config = config
        
         # Also: www.zacwitte.com/using-ssl-https-with-cherrypy-3-2-0-example 
         self.server.conf = {
             server.socket_host: '0.0.0.0',
             server.socket_port: 1469
-
         }
 
         self.conf = {
@@ -54,11 +45,6 @@ class ControlInterface:
                'tools.staticdir.root': os.path.abspath(os.getcwd())
             },
             '/sensors': {
-                'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-                'tools.response_headers.on': True,
-                'tools.response_headers.headers': [('Content-Type', 'application/json')],
-            },
-            '/pumps': {
                 'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
                 'tools.response_headers.on': True,
                 'tools.response_headers.headers': [('Content-Type', 'application/json')],

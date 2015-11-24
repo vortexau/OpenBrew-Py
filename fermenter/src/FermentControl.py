@@ -4,6 +4,7 @@ import os, time, logging, psycopg2
 from configparser import ConfigParser
 from SensorLogger import SensorLogger
 from FridgeControl import FridgeControl
+from ControlInterface import ControlInterface
 
 class FermentControl:
 
@@ -29,6 +30,7 @@ class FermentControl:
 
         self.sensor_logger = SensorLogger(self.config, self.dbconn)
         self.fridge_control = FridgeControl(self.config, self.dbconn)
+        self.control_interface = ControlInterface(self.logger, self.dbconn, self.config)
 
         children = []
 
