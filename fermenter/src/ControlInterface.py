@@ -19,7 +19,7 @@ class SensorsWebService:
          return self.all_sensor_readings() # return all the sensor readings
 
      # POST, PUT, DELETE not implemented. Does't make sense for temp sensors which are read-only.
-     def all_sensor_readings():
+     def all_sensor_readings(self):
          return json.dumps('sensor_values')
          
 class ControlInterface:
