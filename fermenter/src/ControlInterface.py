@@ -12,6 +12,11 @@ class BaseWebService:
 class SensorsWebService:
      exposed = True
 
+     dbconn = None
+  
+     def __init__(self, dbconn):
+         self.dbconn = dbconn
+
      @cherrypy.tools.accept(media='application/json')
      @cherrypy.tools.json_in()
      @cherrypy.tools.json_out()
@@ -20,7 +25,11 @@ class SensorsWebService:
 
      # POST, PUT, DELETE not implemented. Does't make sense for temp sensors which are read-only.
      def all_sensor_readings(self):
-         return json.dumps('sensor_values')
+         cur = self.dbconn.cursor()
+         cur.execute('select * from readings;')
+         sensor_values = cur.fetchone()
+
+         return json.dumps(sensor_values)
          
 class ControlInterface:
   
@@ -53,5 +62,5 @@ class ControlInterface:
     
     def interface(self):
         webapp = BaseWebService()
-        webapp.sensors = SensorsWebService()
+        webapp.sensors = SensorsWebService(self.dbconn)
         cherrypy.quickstart(webapp, '/', self.conf)
