@@ -34,10 +34,10 @@ class ControlInterface:
         self.config = config
        
         # Also: www.zacwitte.com/using-ssl-https-with-cherrypy-3-2-0-example 
-        self.server.conf = {
-            server.socket_host: '0.0.0.0',
-            server.socket_port: 1469
-        }
+        cherrypy.config.update({
+            'server.socket_host': '0.0.0.0',
+            'server.socket_port': 1469
+        })
 
         self.conf = {
             '/': {
@@ -54,5 +54,4 @@ class ControlInterface:
     def interface(self):
         webapp = BaseWebService()
         webapp.sensors = SensorsWebService()
-        webapp.pumps = PumpsWebService()
         cherrypy.quickstart(webapp, '/', self.conf)
