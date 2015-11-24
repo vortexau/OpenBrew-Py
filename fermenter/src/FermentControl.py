@@ -12,6 +12,7 @@ class FermentControl:
 
     sensor_logger = None
     fridge_control = None
+    logger = None
 
     def __init__(self):
         print("OpenBrew - Ferment")
