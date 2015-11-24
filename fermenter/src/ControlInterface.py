@@ -3,6 +3,7 @@ import random
 import string
 import json
 import cherrypy
+import decimal
 
 class BaseWebService:
     @cherrypy.expose
@@ -27,9 +28,14 @@ class SensorsWebService:
      def all_sensor_readings(self):
          cur = self.dbconn.cursor()
          cur.execute('select * from readings;')
-         sensor_values = cur.fetchone()
+         sensor_values = cur.fetchall()
 
-         return json.dumps(sensor_values)
+         return json.dumps(sensor_values, default=self.decimal_default)
+
+     def decimal_default(self, obj):
+         if isinstance(obj, decimal.Decimal):
+             return float(obj)
+         raise TypeError
          
 class ControlInterface:
   
