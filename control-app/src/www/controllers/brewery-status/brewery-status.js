@@ -1,2 +1,4 @@
 
-## this is somewhere some javascript will go some day!
+App.controller('BreweryStatusController', function($scope) {
+
+});
