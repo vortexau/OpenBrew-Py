@@ -1,5 +1,5 @@
     <ons-template id="brewery-status.html">
-	<ons-page ng-controller="BreweryStatusController as status">
+	<ons-page ng-controller="BreweryStatusController">
 	    <ons-toolbar>
 	        <div class="left">
 	                    <ons-toolbar-button ng-click="menu.toggle()">
@@ -12,6 +12,7 @@
 	    <ons-row style="margin-top: 100px; text-align: center;">
 	        <ons-col>
 			<ons-icon icon="rotate-right" size="80px" spin="true" fixed-width="true"></ons-icon>
+                        {{ thing }}
 	        </ons-col>
 	    </ons-row>
 

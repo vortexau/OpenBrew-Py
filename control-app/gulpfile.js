@@ -57,7 +57,8 @@ gulp.task('buildindex', function () {
 });
 
 gulp.task('build-onsen-libs', function() {
-    return gulp.src(['src/hooks/**/*','src/www/icon.png', 'src/www/lib/**/*','src/res/**/*'], {base:"src/www"})
+    return gulp.src(['src/www/scripts/*', 'src/hooks/**/*','src/www/icon.png', 'src/www/lib/**/*','src/res/**/*'], {base:"src/www"})
+        .pipe(debug())
         .pipe(gulp.dest(builddir + '/www/'));
 });
 
@@ -66,7 +67,7 @@ gulp.task('build-openbrew-css', function() {
 });
 
 gulp.task('build-openbrew-js', function() {
-    return gulp.src(['src/www/controllers/**/*.js'])
+    return gulp.src(['src/www/app.js', 'src/www/controllers/**/*.js'])
     .pipe(concat('openbrew.min.js'))
     .pipe(gulp.dest(builddir + '/www/'));
 
