@@ -1,5 +1,5 @@
 
-App.controller('BreweryStatusController', function($scope) {
+openBrew.controller('BreweryStatusController', function($scope) {
 
     ons.ready(function() {
         alert('Alert!');

@@ -67,7 +67,7 @@ gulp.task('build-openbrew-css', function() {
 
 gulp.task('build-openbrew-js', function() {
     return gulp.src(['src/www/controllers/**/*.js'])
-    .pipe(concat('app.min.js'))
+    .pipe(concat('openbrew.min.js'))
     .pipe(gulp.dest(builddir + '/www/'));
 
 });
