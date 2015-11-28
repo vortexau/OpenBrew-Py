@@ -1,4 +1,4 @@
-var openBrew = angular.module('openBrew', []);
+#var openBrew = angular.module('openBrew', []);
 
 console.log(openBrew);
 
