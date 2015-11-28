@@ -1,4 +1,4 @@
-function BreweryStatusController($scope) {
-    $scope.thing = 'This is OpenBrew';
+    app.controller('BreweryStatusController', ['$scope', function BreweryStatusController($scope) {
+        $scope.thing = 'Hello, world!';
 
-}]);
+    }]);

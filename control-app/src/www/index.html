@@ -8,14 +8,9 @@
 
     <!-- JS dependencies (order matters!) -->
     <script src="scripts/platformOverrides.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
     <script src="lib/angular/angular.js"></script>
-    <!-- <script type="text/javascript" src="cordova.js"></script> -->
     <script src="lib/onsen/js/onsenui.js"></script>
     
-    <!-- app.js -->
-    <script type="text/javascript" src="openbrew.min.js"></script>
-
     <!-- Our JS files -->
     <!-- inject:js -->
     <!-- endinject -->
@@ -34,8 +29,12 @@
 
     <script>
         angular.module('app', ['onsen']);
-        <!-- Insert angular chart library: angular-google-chart.github.io/angular-google-chart/docs/latest/guides/getting-started/  -->
     </script>
+    <script src="app.js"></script>
+    <!-- 
+        Insert angular chart library: 
+        angular-google-chart.github.io/angular-google-chart/docs/latest/guides/getting-started/  
+    -->
 
     <style>
         .page--menu-page__background {
