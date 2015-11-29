@@ -38,7 +38,14 @@ class SensorsFermenterData:
     @cherrypy.tools.accept(media='application/json')
     @cherrypy.tools.json_out()
     def index(self, sensors, fermenter):
-        return json.dumps('sensors %s fermenter %s' % (sensors, fermenter))
+        #return json.dumps('sensors %s fermenter %s' % (sensors, fermenter))
+        return [{
+            "title"    : "abc", 
+            "folder"   : True, 
+            "key"      : 1, 
+            "temp"     : 29.322,
+            "children" : [{"title": "b", "key": 2}] 
+        }]
 
 class SensorsAllData:
     dbconn = None
@@ -51,10 +58,8 @@ class SensorsAllData:
     @cherrypy.tools.json_out()
     def index(self, sensors):
         cur = self.dbconn.cursor()
-        cur.execute('select * from readings;')
-        sensor_values = cur.fetchall()
-
-        return json.dumps(sensor_values, default=self.decimal_default)
+        cur.execute('select * from readings order by time asc;')
+        return json.dumps(cur.fetchall(), default=self.decimal_default)
 
     def decimal_default(self, obj):
         if isinstance(obj, decimal.Decimal):

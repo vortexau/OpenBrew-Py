@@ -1,5 +1,5 @@
 
-import os, time, logging, psycopg2
+import os, time, logging, psycopg2, psycopg2.extras
 
 from configparser import ConfigParser
 from SensorLogger import SensorLogger
@@ -25,7 +25,7 @@ class FermentControl:
         # Make sure we have a connection to the database
         # http://initd.org/psycopg/docs/
         dsn = "host=" + self.config['database']['host'] + " dbname=" + self.config['database']['database'] + " user=" + self.config['database']['username'] + " password=" + self.config['database']['password']
-        self.dbconn = psycopg2.connect(dsn)
+        self.dbconn = psycopg2.connect(dsn, cursor_factory = psycopg2.extras.RealDictCursor)
 
     def run(self):
         print("Running...")
