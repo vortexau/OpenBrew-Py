@@ -28,22 +28,36 @@ class SensorLogger:
         readwait = self.config.get('sensors','readwait')
 
         while True:
-           for k, v in sensors.iteritems():
-               thisSensor = directory + v + '/' + sensor_file
-               print 'Sensor: ' + k
-               print 'File: ' + thisSensor
-               if os.path.isfile(thisSensor):
-                   sensorTemp = self.getSensorTemp(thisSensor)
-                   print 'Temp is: ' + sensorTemp
-                   self.logSensorTemp(sensorTemp, k)
-                   print '----'
-               else:
-                   print thisSensor + ' WAS NOT FOUND!'
 
-           print readwait
-           time.sleep(float(readwait))
+            cur = self.dbconn.cursor()
+            cur.execute('select max(runbatch) runbatch from readings')
+            runbatch = cur.fetchone()
 
-    def logSensorTemp(self, sensorTemp, sensorName):
+            if runbatch['runbatch'] is None:
+                runbatch = 1
+            else:
+                runbatch = runbatch['runbatch']
+                runbatch += 1
+
+            print 'Run batch : ', runbatch
+
+            for k, v in sensors.iteritems():
+                thisSensor = directory + v + '/' + sensor_file
+                print 'Sensor: ' + k
+                print 'File: ' + thisSensor
+                print 'Run Batch: ', runbatch
+                if os.path.isfile(thisSensor):
+                    sensorTemp = self.getSensorTemp(thisSensor)
+                    print 'Temp is: ' + sensorTemp
+                    self.logSensorTemp(sensorTemp, k, runbatch)
+                    print '----'
+                else:
+                    print thisSensor + ' WAS NOT FOUND!'
+
+            print readwait
+            time.sleep(float(readwait))
+
+    def logSensorTemp(self, sensorTemp, sensorName, runbatch):
         # log the sensor value to the database here.
         print sensorTemp, sensorName
         if sensorName is 'ambient':
@@ -61,9 +75,9 @@ class SensorLogger:
 
         cur = self.dbconn.cursor()
         cur.execute(
-            """INSERT INTO readings (value, time, sensorid)
-               VALUES (%(value)s, %(time)s, %(sensorid)s);""",
-            {'value': sensorTemp, 'time': time.time(), 'sensorid': sensorid}) 
+            """INSERT INTO readings (value, time, sensorid, runbatch)
+               VALUES (%(value)s, %(time)s, %(sensorid)s, %(runbatch)s);""",
+            {'value': sensorTemp, 'time': time.time(), 'sensorid': sensorid, 'runbatch': runbatch}) 
         self.dbconn.commit()
         cur.close()
 
