@@ -1,0 +1,43 @@
+-- Get the values for a specific fermenter, with Ambient value.
+SELECT
+  r.id,
+  CAST(r.value AS float),
+  r.time,
+  s.name "sensor_name",
+  f.name "fermentor_name"
+FROM readings r,
+     sensors s,
+     fermenters f
+WHERE r.sensorid = s.id
+AND s.fermenterid = f.id
+AND (f.name = 'Fridge 1'
+OR f.name = 'Ambient')
+-- add an order by r.time too.
+
+-- Example:
+ id | value  |    time    | sensor_name  | fermentor_name 
+----+--------+------------+--------------+----------------
+ 55 | 20.625 | 1448280126 | Air          | Fridge 1
+ 57 | 20.812 | 1448280247 | Wort         | Fridge 1
+ 59 | 19.062 | 1448280249 | Ambient      | Ambient
+ 60 | 26.187 | 1448280250 | Ambient High | Ambient
+ 61 | 20.625 | 1448280251 | Air          | Fridge 1
+ 63 | 20.812 | 1448280373 | Wort         | Fridge 1
+ 65 | 19.125 | 1448280374 | Ambient      | Ambient
+ 66 | 26.375 | 1448280375 | Ambient High | Ambient
+ 67 | 20.562 | 1448280376 | Air          | Fridge 1
+ 69 |  20.75 | 1448280498 | Wort         | Fridge 1
+ 71 | 19.187 | 1448280500 | Ambient      | Ambient
+ 72 | 26.375 | 1448280500 | Ambient High | Ambient
+
+SELECT
+  CAST(r.value AS float),
+  r.time,
+  s.name "sensor_name",
+  f.name "fermentor_name"
+FROM readings r,
+     sensors s,
+     fermenters f
+WHERE r.sensorid = s.id
+AND s.fermenterid = f.id
+AND f.name = 'Ambient'
