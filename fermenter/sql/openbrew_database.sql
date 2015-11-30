@@ -142,22 +142,22 @@ CREATE VIEW v_fridgeone AS
            FROM readings r,
             fermenters f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) AND ((s.name)::text = 'Ambient'::text))) AS fridgeone_ambient,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) AND ((s.name)::text = 'Ambient'::text))) AS ambient,
     ( SELECT r.value
            FROM readings r,
             fermenters f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) AND ((s.name)::text = 'Air'::text))) AS fridgeone_air,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) AND ((s.name)::text = 'Air'::text))) AS air,
     ( SELECT r.value
            FROM readings r,
             fermenters f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) AND ((s.name)::text = 'Wort'::text))) AS fridgeone_wort,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) AND ((s.name)::text = 'Wort'::text))) AS wort,
     ( SELECT r.value
            FROM readings r,
             fermenters f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) AND ((s.name)::text = 'Ambient High'::text))) AS fridgeone_ambienthigh,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
     r2.runbatch
    FROM readings r2
   GROUP BY r2.runbatch
@@ -175,22 +175,22 @@ CREATE VIEW v_fridgetwo AS
            FROM readings r,
             fermenters f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Ambient'::text))) AS fridgetwo_ambient,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Ambient'::text))) AS ambient,
     ( SELECT r.value
            FROM readings r,
             fermenters f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Air'::text))) AS fridgetwo_air,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Air'::text))) AS air,
     ( SELECT r.value
            FROM readings r,
             fermenters f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Wort'::text))) AS fridgetwo_wort,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Wort'::text))) AS wort,
     ( SELECT r.value
            FROM readings r,
             fermenters f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Ambient High'::text))) AS fridgetwo_ambienthigh,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
     r2.runbatch
    FROM readings r2
   GROUP BY r2.runbatch
@@ -357,6 +357,84 @@ COPY readings (id, value, "time", sensorid, runbatch) FROM stdin;
 4098	23.000	1448871899	6	19
 4099	30.062	1448871900	11	19
 4100	24.500	1448871901	7	19
+4101	24.562	1448872022	9	20
+4102	24.625	1448872023	8	20
+4103	24.500	1448872023	10	20
+4104	22.875	1448872024	6	20
+4105	30.312	1448872025	11	20
+4106	24.500	1448872026	7	20
+4107	24.562	1448872147	9	21
+4108	24.625	1448872148	8	21
+4109	24.500	1448872149	10	21
+4110	22.750	1448872150	6	21
+4111	30.312	1448872151	11	21
+4112	24.437	1448872152	7	21
+4113	24.562	1448872273	9	22
+4114	24.562	1448872274	8	22
+4115	24.437	1448872275	10	22
+4116	22.812	1448872276	6	22
+4117	30.250	1448872276	11	22
+4118	24.437	1448872278	7	22
+4119	24.562	1448872399	9	23
+4120	24.562	1448872401	8	23
+4121	24.437	1448872402	10	23
+4122	22.812	1448872402	6	23
+4123	29.875	1448872403	11	23
+4124	24.375	1448872404	7	23
+4125	24.375	1448872836	9	24
+4126	24.375	1448872837	8	24
+4127	24.312	1448872839	10	24
+4128	22.625	1448872840	6	24
+4129	29.875	1448872841	11	24
+4130	24.375	1448872842	7	24
+4131	24.312	1448872981	9	25
+4132	24.375	1448872982	8	25
+4133	24.312	1448872983	10	25
+4134	22.625	1448872984	6	25
+4135	29.750	1448872985	11	25
+4136	24.250	1448872986	7	25
+4137	24.312	1448873039	9	26
+4138	24.375	1448873040	8	26
+4139	24.250	1448873041	10	26
+4140	22.750	1448873042	6	26
+4141	29.750	1448873043	11	26
+4142	24.250	1448873044	7	26
+4143	24.312	1448873127	9	27
+4144	24.437	1448873128	8	27
+4145	24.250	1448873129	10	27
+4146	22.625	1448873130	6	27
+4147	29.937	1448873131	11	27
+4148	24.250	1448873132	7	27
+4149	24.250	1448873170	9	28
+4150	24.375	1448873170	8	28
+4151	24.250	1448873171	10	28
+4152	22.687	1448873172	6	28
+4153	30.187	1448873174	11	28
+4154	24.250	1448873175	7	28
+4155	24.250	1448873260	9	29
+4156	24.375	1448873261	8	29
+4157	24.187	1448873262	10	29
+4158	22.625	1448873262	6	29
+4159	30.187	1448873264	11	29
+4160	24.250	1448873265	7	29
+4161	24.125	1448873831	9	30
+4162	24.187	1448873832	8	30
+4163	24.062	1448873833	10	30
+4164	22.187	1448873834	6	30
+4165	29.375	1448873836	11	30
+4166	24.125	1448873837	7	30
+4167	24.125	1448873877	9	31
+4168	24.187	1448873878	8	31
+4169	24.062	1448873880	10	31
+4170	22.312	1448873880	6	31
+4171	29.250	1448873881	11	31
+4172	24.125	1448873882	7	31
+4173	24.062	1448873963	9	32
+4174	24.250	1448873964	8	32
+4175	24.000	1448873964	10	32
+4176	22.312	1448873965	6	32
+4177	29.437	1448873966	11	32
+4178	24.062	1448873967	7	32
 \.
 
 
@@ -364,7 +442,7 @@ COPY readings (id, value, "time", sensorid, runbatch) FROM stdin;
 -- Name: readings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: openbrew
 --
 
-SELECT pg_catalog.setval('readings_id_seq', 4100, true);
+SELECT pg_catalog.setval('readings_id_seq', 4178, true);
 
 
 --
