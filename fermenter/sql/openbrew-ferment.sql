@@ -43,7 +43,8 @@ CREATE TABLE readings (
     id bigint NOT NULL,
     value numeric,
     "time" integer,
-    sensorid integer
+    sensorid integer,
+    runbatch integer
 );
 
 ALTER TABLE public.readings OWNER TO openbrew;
