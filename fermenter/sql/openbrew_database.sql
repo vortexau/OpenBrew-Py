@@ -70,7 +70,8 @@ CREATE TABLE readings (
     id bigint NOT NULL,
     value numeric,
     "time" integer,
-    sensorid integer
+    sensorid integer,
+    runbatch integer default 1
 );
 
 
