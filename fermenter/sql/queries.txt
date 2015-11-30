@@ -72,6 +72,16 @@ FROM readings
 GROUP BY runbatch,
          sensorid
 
+
+select max(value) as value, sensorid, runbatch from readings where sensorid = (SELECT
+         s.id
+       FROM fermenters f,
+            sensors s
+       WHERE s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Ambient High') group by sensorid, runbatch order by runbatch;
+
 SELECT (SELECT
          s.id
        FROM fermenters f,
@@ -107,5 +117,8 @@ SELECT (SELECT
        AND (f.name = 'Ambient'
        OR f.name = 'Fridge 1')
        AND s.name = 'Ambient High')
-       AS fridgeone_ambienthigh;
-
+       AS fridgeone_ambienthigh,
+       RUNBATCH
+FROM READINGS
+GROUP BY RUNBATCH
+ORDER BY RUNBATCH;
