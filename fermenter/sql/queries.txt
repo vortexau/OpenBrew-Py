@@ -83,42 +83,50 @@ select max(value) as value, sensorid, runbatch from readings where sensorid = (S
        AND s.name = 'Ambient High') group by sensorid, runbatch order by runbatch;
 
 SELECT (SELECT
-         s.id
-       FROM fermenters f,
+         r.value
+       FROM readings r, fermenters f,
             sensors s
-       WHERE s.fermenterid = f.id
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
        AND (f.name = 'Ambient'
        OR f.name = 'Fridge 1')
        AND s.name = 'Ambient')
        AS fridgeone_ambient,
        (SELECT
-         s.id
-       FROM fermenters f,
+         r.value
+       FROM readings r, fermenters f,
             sensors s
-       WHERE s.fermenterid = f.id
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
        AND (f.name = 'Ambient'
        OR f.name = 'Fridge 1')
        AND s.name = 'Air')
        AS fridgeone_air,
        (SELECT
-         s.id
-       FROM fermenters f,
+         r.value
+       FROM readings r, fermenters f,
             sensors s
-       WHERE s.fermenterid = f.id
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
        AND (f.name = 'Ambient'
        OR f.name = 'Fridge 1')
        AND s.name = 'Wort')
        AS fridgeone_wort,
        (SELECT
-         s.id
-       FROM fermenters f,
+         r.value
+       FROM readings r, fermenters f,
             sensors s
-       WHERE s.fermenterid = f.id
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
        AND (f.name = 'Ambient'
        OR f.name = 'Fridge 1')
        AND s.name = 'Ambient High')
        AS fridgeone_ambienthigh,
        RUNBATCH
-FROM READINGS
-GROUP BY RUNBATCH
-ORDER BY RUNBATCH;
+FROM READINGS R2
+GROUP BY R2.RUNBATCH
+ORDER BY R2.RUNBATCH;
