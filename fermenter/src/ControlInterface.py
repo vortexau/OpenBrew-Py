@@ -38,26 +38,42 @@ class SensorsFermenterData:
     @cherrypy.tools.accept(media='application/json')
     @cherrypy.tools.json_out()
     def index(self, sensors, fermenter):
-        var = []
-        #other = {"title" : "abc", "temp" : 29.432}
+        selection = 'bad'
+
         cur = self.dbconn.cursor()
-        cur.execute("""
-            SELECT
-                r.id,
-                CAST(r.value AS float),
-                r.time,
-                s.name "sensor_name",
-                f.name "fermentor_name"
-            FROM readings r,
-                sensors s,
-                fermenters f
-            WHERE r.sensorid = s.id
-            AND s.fermenterid = f.id
-            AND (f.name = 'Fridge 1'
-            OR f.name = 'Ambient')
-        """)
-        #return json.dumps(cur.fetchall())
-        return cur.fetchall() # does not need to be dumped as JSON
+
+        if fermenter == 'fridgeone':
+            selection = 'ok'
+            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch FROM V_FRIDGEONE;'
+        elif fermenter == 'fridgetwo':
+            selection = 'ok'
+            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch FROM V_FRIDGETWO;'
+        elif fermenter == 'ambient':
+            selection = 'ok'
+            query = 'SELECT * FROM V_AMBIENT;'
+
+        if selection == 'bad':
+            return [{'error': 'invalid selection'}]
+        
+        cur.execute(query)
+        data = cur.fetchall()
+
+        coldata = {}
+        coldata.update({"id": "time", "label": "Time", "type": "String"})
+        coldata.update({"id": "ambient-id", "label": "Ambient", "type": "number"})
+        coldata.update({"id": "air-id", "label": "Air temp", "type": "number"})
+        coldata.update({"id": "wort-id", "label": "Wort temp", "type": "number"})
+        coldata.update({"id": "ambienthigh-id", "label": "Ambient High temp", "type": "number"})
+
+        rowdata = {}
+
+        cols = [coldata]
+        rows = [rowdata]
+
+        ret = {"cols": cols, "rows": rows}
+        
+        return ret
+        #return cur.fetchall() # does not need to be dumped as JSON
 
 class SensorsAllData:
     dbconn = None
