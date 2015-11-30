@@ -130,3 +130,53 @@ SELECT (SELECT
 FROM READINGS R2
 GROUP BY R2.RUNBATCH
 ORDER BY R2.RUNBATCH;
+
+
+SELECT (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 2')
+       AND s.name = 'Ambient')
+       AS fridgetwo_ambient,
+       (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 2')
+       AND s.name = 'Air')
+       AS fridgetwo_air,
+       (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 2')
+       AND s.name = 'Wort')
+       AS fridgetwo_wort,
+       (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 2')
+       AND s.name = 'Ambient High')
+       AS fridgetwo_ambienthigh,
+       RUNBATCH
+FROM READINGS R2
+GROUP BY R2.RUNBATCH
+ORDER BY R2.RUNBATCH;
