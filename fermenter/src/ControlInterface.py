@@ -38,25 +38,24 @@ class SensorsFermenterData:
     @cherrypy.tools.accept(media='application/json')
     @cherrypy.tools.json_out()
     def index(self, sensors, fermenter):
-        var = []
-        #other = {"title" : "abc", "temp" : 29.432}
+        selection = 'bad'
+
         cur = self.dbconn.cursor()
-        cur.execute("""
-            SELECT
-                r.id,
-                CAST(r.value AS float),
-                r.time,
-                s.name "sensor_name",
-                f.name "fermentor_name"
-            FROM readings r,
-                sensors s,
-                fermenters f
-            WHERE r.sensorid = s.id
-            AND s.fermenterid = f.id
-            AND (f.name = 'Fridge 1'
-            OR f.name = 'Ambient')
-        """)
-        #return json.dumps(cur.fetchall())
+
+        if fermenter == 'fridgeone':
+            selection = 'ok'
+            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch FROM V_FRIDGEONE;'
+        elif fermenter == 'fridgetwo':
+            selection = 'ok'
+            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch FROM V_FRIDGETWO;'
+        elif fermenter == 'ambient':
+            selection = 'ok'
+            query = 'SELECT * FROM V_AMBIENT;'
+
+        if selection == 'bad':
+            return [{'error': 'invalid selection'}]
+        
+        cur.execute(query)
         return cur.fetchall() # does not need to be dumped as JSON
 
 class SensorsAllData:
