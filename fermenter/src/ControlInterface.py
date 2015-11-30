@@ -38,14 +38,26 @@ class SensorsFermenterData:
     @cherrypy.tools.accept(media='application/json')
     @cherrypy.tools.json_out()
     def index(self, sensors, fermenter):
-        #return json.dumps('sensors %s fermenter %s' % (sensors, fermenter))
-        return [{
-            "title"    : "abc", 
-            "folder"   : True, 
-            "key"      : 1, 
-            "temp"     : 29.322,
-            "children" : [{"title": "b", "key": 2}] 
-        }]
+        var = []
+        #other = {"title" : "abc", "temp" : 29.432}
+        cur = self.dbconn.cursor()
+        cur.execute("""
+            SELECT
+                r.id,
+                CAST(r.value AS float),
+                r.time,
+                s.name "sensor_name",
+                f.name "fermentor_name"
+            FROM readings r,
+                sensors s,
+                fermenters f
+            WHERE r.sensorid = s.id
+            AND s.fermenterid = f.id
+            AND (f.name = 'Fridge 1'
+            OR f.name = 'Ambient')
+        """)
+        #return json.dumps(cur.fetchall())
+        return cur.fetchall() # does not need to be dumped as JSON
 
 class SensorsAllData:
     dbconn = None
@@ -58,8 +70,9 @@ class SensorsAllData:
     @cherrypy.tools.json_out()
     def index(self, sensors):
         cur = self.dbconn.cursor()
-        cur.execute('select * from readings order by time asc;')
-        return json.dumps(cur.fetchall(), default=self.decimal_default)
+        cur.execute('select id, cast(value as float), time, sensorid from readings order by time asc;')
+        #return json.dumps(cur.fetchall(), default=self.decimal_default)
+        return cur.fetchall() # does not need to be dumped as JSON
 
     def decimal_default(self, obj):
         if isinstance(obj, decimal.Decimal):
@@ -91,7 +104,7 @@ class ControlInterface:
             '/sensorsssss': {
                 'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
                 'tools.response_headers.on': True,
-                'tools.response_headers.headers': [('Content-Type', 'application/json')],
+                #'tools.response_headers.headers': [('Content-Type', 'application/json')],
             }
         }
     
