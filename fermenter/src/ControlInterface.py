@@ -56,7 +56,24 @@ class SensorsFermenterData:
             return [{'error': 'invalid selection'}]
         
         cur.execute(query)
-        return cur.fetchall() # does not need to be dumped as JSON
+        data = cur.fetchall()
+
+        coldata = {}
+        coldata.update({"id": "time", "label": "Time", "type": "String"})
+        coldata.update({"id": "ambient-id", "label": "Ambient", "type": "number"})
+        coldata.update({"id": "air-id", "label": "Air temp", "type": "number"})
+        coldata.update({"id": "wort-id", "label": "Wort temp", "type": "number"})
+        coldata.update({"id": "ambienthigh-id", "label": "Ambient High temp", "type": "number"})
+
+        rowdata = {}
+
+        cols = [coldata]
+        rows = [rowdata]
+
+        ret = {"cols": cols, "rows": rows}
+        
+        return ret
+        #return cur.fetchall() # does not need to be dumped as JSON
 
 class SensorsAllData:
     dbconn = None
