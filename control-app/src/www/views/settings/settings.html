@@ -11,19 +11,25 @@
 
 <div style="text-align: left">
 
-    <section style="padding: 8px">
-      Brewery Address
-      <input type="text" class="text-input" ng-model="breweryaddress" placeholder="Brewery Address" style="display: block; width: 100%">
-    </section>
+    <article>
+        <h5>Brewery</h5>
+        <section style="padding: 8px">
+            <input type="text" class="text-input" ng-model="breweryaddress" placeholder="Address" style="display: block; width: 70%">
+            <input type="text" class="text-input" ng-model="breweryaddressport" placeholder="Port" style="display: block; width: 30%">
+        </section>
+        <section style="padding: 8px">
+            <input type="text" class="text-input" ng-model="breweryendpoint" placeholder="/api/v1/brewery/" style="display: block; width: 100%">
+        </section>
+    </article>
 
     <section style="padding: 8px">
       Fermentor Address
-      <input type="text" class="text-input" ng-model="fermentoraddress" placeholder="Fermentor Address" style="display: block; width: 100%">
+      <input type="text" class="text-input" ng-model="fermentoraddress" placeholder="Address" style="display: block; width: 100%">
     </section>
 
     <section style="padding: 8px">
       Kegerator Address
-      <input type="text" class="text-input" ng-model="kegeratoraddress" placeholder="Kegerator Address" style="display: block; width: 100%">
+      <input type="text" class="text-input" ng-model="kegeratoraddress" placeholder="Address" style="display: block; width: 100%">
     </section>
 
     <section style="padding: 0 8px 8px">
