@@ -58,14 +58,16 @@ class SensorsFermenterData:
         cur.execute(query)
         data = cur.fetchall()
 
-        coldata = {}
-        coldata.update({"id": "time", "label": "Time", "type": "String"})
-        coldata.update({"id": "ambient-id", "label": "Ambient", "type": "number"})
-        coldata.update({"id": "air-id", "label": "Air temp", "type": "number"})
-        coldata.update({"id": "wort-id", "label": "Wort temp", "type": "number"})
-        coldata.update({"id": "ambienthigh-id", "label": "Ambient High temp", "type": "number"})
+        coldata = []
 
-        rowdata = {}
+        coldata.append({"id": "time", "label": "Time", "type": "String"})
+        coldata.append({"id": "ambient-id", "label": "Ambient", "type": "number"})
+        coldata.append({"id": "air-id", "label": "Air temp", "type": "number"})
+        coldata.append({"id": "wort-id", "label": "Wort temp", "type": "number"})
+        coldata.append({"id": "ambienthigh-id", "label": "Ambient High temp", "type": "number"})
+
+        rowdata = []
+        rowdata.append({"something": "other thing"})
 
         cols = [coldata]
         rows = [rowdata]
