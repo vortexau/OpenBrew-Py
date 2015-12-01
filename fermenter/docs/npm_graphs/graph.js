@@ -37,71 +37,27 @@
         function init() {
             $scope.chartObject.type = "LineChart";
             $scope.chartObject.displayed = false;
-            $scope.chartObject.data = {
-                "cols": [{
-                    id: "month",
-                    label: "Month",
-                    type: "string"
-                }, {
-                    id: "laptop-id",
-                    label: "Laptop",
-                    type: "number"
-                }, {
-                    id: "desktop-id",
-                    label: "Desktop",
-                    type: "number"
-                }, {
-                    id: "server-id",
-                    label: "Server",
-                    type: "number"
-                }, {
-                    id: "cost-id",
-                    label: "Shipping",
-                    type: "number"
-                }],
-                "rows": [{
-                    c: [{
-                        v: "January"
-                    }, {
-                        v: 19,
-                        f: "42 items"
-                    }, {
-                        v: 12,
-                        f: "Ony 12 items"
-                    }, {
-                        v: 7,
-                        f: "7 servers"
-                    }, {
-                        v: 4
-                    }]
-                }, {
-                    c: [{
-                        v: "February"
-                    }, {
-                        v: 13
-                    }, {
-                        v: 1,
-                        f: "1 unit (Out of stock this month)"
-                    }, {
-                        v: 12
-                    }, {
-                        v: 2
-                    }]
 
-                }, {
-                    c: [{
-                        v: "March"
+            $scope.chartObject.data = {
+                "cols": [{ 
+                    id: "time",
+                    label: "Minute",
+                    type: "string"
+                }, { 
+                    id: "ambient-id",
+                    label: "Ambient",
+                    type: "string"
+		}],
+                "rows": [{ 
+                    c: [{ 
+		        v: "10"
                     }, {
-                        v: 24
-                    }, {
-                        v: 5
-                    }, {
-                        v: 11
-                    }, {
-                        v: 6
-                    }]
+                        v: "12",
+                        f: "12 degrees"
+	            }]
                 }]
             };
+
             $scope.chartObject.options = {
                 "title": "Sales per month",
                 "colors": ['#0000FF', '#009900', '#CC0000', '#DD9900'],
@@ -123,6 +79,9 @@
             $scope.chartObject.view = {
                 columns: [0, 1, 2, 3, 4]
             };
+
+            console.log($scope.chartObject);
+
         }
     }
 })();
