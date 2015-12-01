@@ -1,0 +1,15 @@
+<html ng-app="google-chart-sample">
+<head>
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/angular-google-chart/ng-google-chart.min.js"></script>
+    <script src="node_modules/angular-ui-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="googlechart-docs.js"></script>
+    <script src="graph.js"></script>
+</head>
+<body>
+<article ng-controller="HideSeriesController">
+    <div google-chart chart="chartObject" on-select="hideSeries(selectedItem)" style="height:450px; width:100%;"></div>
+</article>
+
+</body>
+</html>
