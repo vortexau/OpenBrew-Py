@@ -58,6 +58,7 @@ class SensorsFermenterData:
         cur.execute(query)
         data = cur.fetchall()
 
+        ''' 
         coldata = []
 
         coldata.append({"id": "time", "label": "Time", "type": "String"})
@@ -67,15 +68,26 @@ class SensorsFermenterData:
         coldata.append({"id": "ambienthigh-id", "label": "Ambient High temp", "type": "number"})
 
         rowdata = []
-        rowdata.append({"something": "other thing"})
+        for r in data:
+            rowdata.append(r)
 
-        cols = [coldata]
-        rows = [rowdata]
-
-        ret = {"cols": cols, "rows": rows}
+        ret = {"cols": coldata, "rows": rowdata}
         
         return ret
-        #return cur.fetchall() # does not need to be dumped as JSON
+        '''
+
+        wort = {"key": "Wort temp", "color": "#7777ff", "values": [] }
+        air  = {"key": "Air temp", "color": "#ff7f0e", "values": [] }
+        ambient = {"key": "Ambient", "color": "#2ca02c", "values": [] }
+
+        for row in data:
+            wort['values'].append({ "x": row['runbatch'], "y": row['wort']})
+            air['values'].append({ "x": row['runbatch'], "y": row['air']})
+            ambient['values'].append({ "x": row['runbatch'], "y": row['ambient']})
+
+        rowdata = [wort, air, ambient]
+
+        return rowdata
 
 class SensorsAllData:
     dbconn = None
