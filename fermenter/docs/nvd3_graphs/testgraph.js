@@ -1,5 +1,16 @@
-angular.module('app', ['nvd3'])
-.controller('myCtrl', function($scope, $http){
+var app = angular.module('app', ['nvd3']);
+
+app.service('dataService', function($http) {
+    this.getData = function() {
+        // $http() returns a $promise that we can add handlers with .then()
+        return $http({
+            method: 'GET',
+            url: 'http://192.168.1.62:1469/sensors/fridgeone/',
+        });
+    };
+});
+
+app.controller('myCtrl', function($scope, dataService){
         $scope.options = {
             chart: {
                 type: 'lineChart',
@@ -43,11 +54,17 @@ angular.module('app', ['nvd3'])
         //console.log($http);
         //console.log(JSON.stringify($scope.data));
 
-        $scope.data = $http({ method: 'GET', url: 'http://192.168.1.62:1469/sensors/fridgeone/'}).then(function successCallback(response) {
-            console.log(response.data);
-            return response.data;
-        }, function failedCallback() { 
+        //$scope.data = $http({ method: 'GET', url: 'http://192.168.1.62:1469/sensors/fridgeone/'}).then(function successCallback(response) {
+        //    console.log(response.data);
+        //    return response.data;
+        //}, function failedCallback() { 
+        //
+        //});
 
+        $scope.data = null;
+        dataService.getData().then(function(dataResponse) {
+            console.log(dataResponse);
+            $scope.data = dataResponse.data;
         });
 
         console.log(JSON.stringify($scope.data));
