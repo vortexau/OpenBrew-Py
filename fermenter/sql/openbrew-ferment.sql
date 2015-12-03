@@ -110,6 +110,9 @@ ALTER TABLE ONLY runbatch ALTER COLUMN id SET DEFAULT nextval('runbatch_id_seq':
 ALTER TABLE ONLY sensors ALTER COLUMN id SET DEFAULT nextval('sensors_id_seq'::regclass);
 
 COPY fermenters (id, name) FROM stdin;
+1	Ambient
+2	Fermentor 1
+3	Fermentor 2
 \.
 
 SELECT pg_catalog.setval('fermenters_id_seq', 1, false);
@@ -120,15 +123,15 @@ COPY readings (id, value, sensorid) FROM stdin;
 SELECT pg_catalog.setval('readings_id_seq', 1, false);
 
 COPY sensors (id, serial, name, fermenterid) FROM stdin;
-1	0x234323	Ambient	\N
-2	0x234324	Fermenter 1 Wort	\N
-3	0x234325	Fermenter 1 Air	\N
-4	0x234326	Fermenter 2 Wort	\N
-5	0x234327	Fermenter 2 Air	\N
-6	0x783264	Ambient High \N
+1	0x234323	Ambient	1
+2	0x234324	Fermenter 1 Wort	2
+3	0x234325	Fermenter 1 Air	2
+4	0x234326	Fermenter 2 Wort	3
+5	0x234327	Fermenter 2 Air	3
+6	0x878763	Ambient High	1
 \.
 
-SELECT pg_catalog.setval('sensors_id_seq', 5, true);
+SELECT pg_catalog.setval('sensors_id_seq', 6, true);
 
 ALTER TABLE ONLY fermenters
     ADD CONSTRAINT fermenters_pk PRIMARY KEY (id);
