@@ -103,6 +103,7 @@ COPY sensors (id, serial, name, fermenterid) FROM stdin;
 3	0x234325	Fermenter 1 Air	\N
 4	0x234326	Fermenter 2 Wort	\N
 5	0x234327	Fermenter 2 Air	\N
+6	0x783264	Ambient High \N
 \.
 
 SELECT pg_catalog.setval('sensors_id_seq', 5, true);

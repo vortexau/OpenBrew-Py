@@ -30,15 +30,22 @@ class SensorLogger:
         while True:
 
             cur = self.dbconn.cursor()
+            cur.execute(
+                """INSERT INTO runbatch(timestart)
+                   VALUES (%(timestart)s) RETURNING id;""",
+                {'timestart': time.time()})
+            runbatch = cur.fetchone()['id']
+
+            '''
             cur.execute('select max(runbatch) runbatch from readings')
             runbatch = cur.fetchone()
 
-            if runbatch['runbatch'] is None:
+            if runbatch['id'] is None:
                 runbatch = 1
             else:
                 runbatch = runbatch['runbatch']
                 runbatch += 1
-
+            '''
             print 'Run batch : ', runbatch
 
             for k, v in sensors.iteritems():
@@ -54,6 +61,9 @@ class SensorLogger:
                 else:
                     print thisSensor + ' WAS NOT FOUND!'
 
+            self.dbconn.commit()
+            cur.close()
+
             print readwait
             time.sleep(float(readwait))
 
@@ -61,25 +71,25 @@ class SensorLogger:
         # log the sensor value to the database here.
         print sensorTemp, sensorName
         if sensorName is 'ambient':
-            sensorid = 6
+            sensorid = 1 
         elif sensorName is 'ambient_high':
-            sensorid = 11
+            sensorid = 6 
         elif sensorName is 'fridge1_air':
-            sensorid = 7 
+            sensorid = 3 
         elif sensorName is 'fridge1_wort':
-            sensorid = 8 
+            sensorid = 2 
         elif sensorName is 'fridge2_air':
-            sensorid = 9 
+            sensorid = 5 
         elif sensorName is 'fridge2_wort':
-            sensorid = 10
+            sensorid = 4 
 
         cur = self.dbconn.cursor()
         cur.execute(
-            """INSERT INTO readings (value, time, sensorid, runbatch)
-               VALUES (%(value)s, %(time)s, %(sensorid)s, %(runbatch)s);""",
-            {'value': sensorTemp, 'time': time.time(), 'sensorid': sensorid, 'runbatch': runbatch}) 
-        self.dbconn.commit()
-        cur.close()
+            """INSERT INTO readings (value, sensorid, runbatchid)
+               VALUES (%(value)s, %(sensorid)s, %(runbatch)s);""",
+            {'value': sensorTemp, 'sensorid': sensorid, 'runbatch': runbatch}) 
+        #self.dbconn.commit()
+        #cur.close()
 
     def getSensorTemp(self, sensorFile):
         f = open(sensorFile, 'r')
