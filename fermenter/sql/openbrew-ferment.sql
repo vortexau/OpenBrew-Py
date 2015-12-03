@@ -42,9 +42,8 @@ ALTER SEQUENCE fermenters_id_seq OWNED BY fermenters.id;
 CREATE TABLE readings (
     id bigint NOT NULL,
     value numeric,
-    "time" integer,
     sensorid integer,
-    runbatch integer
+    runbatchid integer
 );
 
 ALTER TABLE public.readings OWNER TO openbrew;
@@ -59,6 +58,27 @@ CREATE SEQUENCE readings_id_seq
 ALTER TABLE public.readings_id_seq OWNER TO openbrew;
 
 ALTER SEQUENCE readings_id_seq OWNED BY readings.id;
+
+CREATE TABLE runbatch (
+    id bigint NOT NULL,
+    timestart integer,
+    timeend integer
+);
+
+ALTER TABLE public.readings OWNER TO openbrew;
+
+CREATE SEQUENCE runbatch_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.runbatch_id_seq OWNER TO openbrew;
+
+ALTER SEQUENCE runbatch_id_seq OWNED BY runbatch.id;
+
+
 
 CREATE TABLE sensors (
     id bigint NOT NULL,
@@ -84,6 +104,8 @@ ALTER SEQUENCE sensors_id_seq OWNED BY sensors.id;
 ALTER TABLE ONLY fermenters ALTER COLUMN id SET DEFAULT nextval('fermenters_id_seq'::regclass);
 
 ALTER TABLE ONLY readings ALTER COLUMN id SET DEFAULT nextval('readings_id_seq'::regclass);
+
+ALTER TABLE ONLY runbatch ALTER COLUMN id SET DEFAULT nextval('runbatch_id_seq'::regclass);
 
 ALTER TABLE ONLY sensors ALTER COLUMN id SET DEFAULT nextval('sensors_id_seq'::regclass);
 
@@ -119,8 +141,14 @@ ALTER TABLE ONLY sensors
 ALTER TABLE ONLY sensors
     ADD CONSTRAINT fermenter_fk FOREIGN KEY (fermenterid) REFERENCES fermenters(id);
 
+ALTER TABLE ONLY runbatch
+    ADD CONSTRAINT runbatch_pk PRIMARY KEY (id);
+
 ALTER TABLE ONLY readings
     ADD CONSTRAINT sensor_fk FOREIGN KEY (sensorid) REFERENCES sensors(id);
+
+ALTER TABLE ONLY readings
+    ADD CONSTRAINT runbatch_fk FOREIGN KEY (runbatchid) REFERENCES runbatch(id);
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM openbrew;

@@ -159,7 +159,7 @@ CREATE VIEW v_fridgeone AS
             sensors s
           WHERE (((((r.sensorid = s.id) AND (r.runbatch = r2.runbatch)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
     r2.runbatch,
-    to_timestamp((avg(r2."time"))::double precision) AS runtime
+    to_timestamp(round(avg(r2."time"))::double precision) AS runtime
    FROM readings r2
   GROUP BY r2.runbatch
   ORDER BY r2.runbatch;
