@@ -20,24 +20,24 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 
-CREATE TABLE fermenters (
+CREATE TABLE fermentors (
     id integer NOT NULL,
     name character varying
 );
 
 
-ALTER TABLE public.fermenters OWNER TO openbrew;
+ALTER TABLE public.fermentors OWNER TO openbrew;
 
-CREATE SEQUENCE fermenters_id_seq
+CREATE SEQUENCE fermentors_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.fermenters_id_seq OWNER TO openbrew;
+ALTER TABLE public.fermentors_id_seq OWNER TO openbrew;
 
-ALTER SEQUENCE fermenters_id_seq OWNED BY fermenters.id;
+ALTER SEQUENCE fermentors_id_seq OWNED BY fermentors.id;
 
 CREATE TABLE readings (
     id bigint NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE sensors (
     id bigint NOT NULL,
     serial character varying(32),
     name character varying(64),
-    fermenterid integer
+    fermentorid integer
 );
 
 
@@ -101,7 +101,7 @@ ALTER TABLE public.sensors_id_seq OWNER TO openbrew;
 
 ALTER SEQUENCE sensors_id_seq OWNED BY sensors.id;
 
-ALTER TABLE ONLY fermenters ALTER COLUMN id SET DEFAULT nextval('fermenters_id_seq'::regclass);
+ALTER TABLE ONLY fermentors ALTER COLUMN id SET DEFAULT nextval('fermentors_id_seq'::regclass);
 
 ALTER TABLE ONLY readings ALTER COLUMN id SET DEFAULT nextval('readings_id_seq'::regclass);
 
@@ -109,32 +109,32 @@ ALTER TABLE ONLY runbatch ALTER COLUMN id SET DEFAULT nextval('runbatch_id_seq':
 
 ALTER TABLE ONLY sensors ALTER COLUMN id SET DEFAULT nextval('sensors_id_seq'::regclass);
 
-COPY fermenters (id, name) FROM stdin;
+COPY fermentors (id, name) FROM stdin;
 1	Ambient
 2	Fermentor 1
 3	Fermentor 2
 \.
 
-SELECT pg_catalog.setval('fermenters_id_seq', 1, false);
+SELECT pg_catalog.setval('fermentors_id_seq', 1, false);
 
 COPY readings (id, value, sensorid) FROM stdin;
 \.
 
 SELECT pg_catalog.setval('readings_id_seq', 1, false);
 
-COPY sensors (id, serial, name, fermenterid) FROM stdin;
+COPY sensors (id, serial, name, fermentorid) FROM stdin;
 1	0x234323	Ambient	1
-2	0x234324	Fermenter 1 Wort	2
-3	0x234325	Fermenter 1 Air	2
-4	0x234326	Fermenter 2 Wort	3
-5	0x234327	Fermenter 2 Air	3
+2	0x234324	Fermentor 1 Wort	2
+3	0x234325	Fermentor 1 Air	2
+4	0x234326	Fermentor 2 Wort	3
+5	0x234327	Fermentor 2 Air	3
 6	0x878763	Ambient High	1
 \.
 
 SELECT pg_catalog.setval('sensors_id_seq', 6, true);
 
-ALTER TABLE ONLY fermenters
-    ADD CONSTRAINT fermenters_pk PRIMARY KEY (id);
+ALTER TABLE ONLY fermentors
+    ADD CONSTRAINT fermentors_pk PRIMARY KEY (id);
 
 ALTER TABLE ONLY readings
     ADD CONSTRAINT readings_pk PRIMARY KEY (id);
@@ -143,7 +143,7 @@ ALTER TABLE ONLY sensors
     ADD CONSTRAINT sensors_pk PRIMARY KEY (id);
 
 ALTER TABLE ONLY sensors
-    ADD CONSTRAINT fermenter_fk FOREIGN KEY (fermenterid) REFERENCES fermenters(id);
+    ADD CONSTRAINT fermentor_fk FOREIGN KEY (fermentorid) REFERENCES fermentors(id);
 
 ALTER TABLE ONLY runbatch
     ADD CONSTRAINT runbatch_pk PRIMARY KEY (id);
@@ -162,24 +162,24 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 CREATE VIEW v_fridgetwo AS
  SELECT ( SELECT r.value
            FROM readings r,
-            fermenters f,
+            fermentors f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Ambient'::text))) AS ambient,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 2'::text))) AND ((s.name)::text = 'Ambient'::text))) AS ambient,
     ( SELECT r.value
            FROM readings r,
-            fermenters f,
+            fermentors f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Air'::text))) AS air,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 2'::text))) AND ((s.name)::text = 'Fermentor 2 Air'::text))) AS air,
     ( SELECT r.value
            FROM readings r,
-            fermenters f,
+            fermentors f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Wort'::text))) AS wort,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 2'::text))) AND ((s.name)::text = 'Fermentor 2 Wort'::text))) AS wort,
     ( SELECT r.value
            FROM readings r,
-            fermenters f,
+            fermentors f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 2'::text))) AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
     r2.runbatchid
    FROM readings r2
   GROUP BY r2.runbatchid
@@ -189,27 +189,25 @@ CREATE VIEW v_fridgetwo AS
 CREATE VIEW v_fridgeone AS
  SELECT ( SELECT r.value
            FROM readings r,
-            fermenters f,
+            fermentors f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) 
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 1'::text))) 
 AND ((s.name)::text = 'Ambient'::text))) AS ambient,
     ( SELECT r.value
            FROM readings r,
-            fermenters f,
+            fermentors f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) 
-AND ((s.name)::text = 'Air'::text))) AS air,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 1'::text)))  AND ((s.name)::text = 'Fermentor 1 Air'::text))) AS air,
     ( SELECT r.value
            FROM readings r,
-            fermenters f,
+            fermentors f,
             sensors s 
-          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text)))        
-AND ((s.name)::text = 'Wort'::text))) AS wort,
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 1'::text))) AND ((s.name)::text = 'Fermentor 1 Wort'::text))) AS wort,
     ( SELECT r.value
            FROM readings r,
-            fermenters f,
+            fermentors f,
             sensors s
-          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) 
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 1'::text))) 
 AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
     r2.runbatchid
    FROM readings r2
