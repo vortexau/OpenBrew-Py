@@ -38,6 +38,7 @@ class SensorsFermenterData:
     @cherrypy.tools.accept(media='application/json')
     @cherrypy.tools.json_out()
     def index(self, sensors, fermenter):
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         selection = 'bad'
 
         cur = self.dbconn.cursor()
@@ -123,7 +124,7 @@ class ControlInterface:
         # Also: www.zacwitte.com/using-ssl-https-with-cherrypy-3-2-0-example 
         cherrypy.config.update({
             'server.socket_host': '0.0.0.0',
-            'server.socket_port': 1469
+            'server.socket_port': 1469,
         })
 
         self.conf = {
@@ -131,7 +132,7 @@ class ControlInterface:
                'tools.sessions.on': True,
                'tools.staticdir.root': os.path.abspath(os.getcwd())
             },
-            '/sensorsssss': {
+            '/sensorsdede': {
                 'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
                 'tools.response_headers.on': True,
                 #'tools.response_headers.headers': [('Content-Type', 'application/json')],
