@@ -156,3 +156,61 @@ REVOKE ALL ON SCHEMA public FROM openbrew;
 GRANT ALL ON SCHEMA public TO openbrew;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
+CREATE VIEW v_fridgetwo AS
+ SELECT ( SELECT r.value
+           FROM readings r,
+            fermenters f,
+            sensors s
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Ambient'::text))) AS ambient,
+    ( SELECT r.value
+           FROM readings r,
+            fermenters f,
+            sensors s
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Air'::text))) AS air,
+    ( SELECT r.value
+           FROM readings r,
+            fermenters f,
+            sensors s
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Wort'::text))) AS wort,
+    ( SELECT r.value
+           FROM readings r,
+            fermenters f,
+            sensors s
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 2'::text))) AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
+    r2.runbatchid
+   FROM readings r2
+  GROUP BY r2.runbatchid
+  ORDER BY r2.runbatchid;
+
+
+CREATE VIEW v_fridgeone AS
+ SELECT ( SELECT r.value
+           FROM readings r,
+            fermenters f,
+            sensors s
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) 
+AND ((s.name)::text = 'Ambient'::text))) AS ambient,
+    ( SELECT r.value
+           FROM readings r,
+            fermenters f,
+            sensors s
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) 
+AND ((s.name)::text = 'Air'::text))) AS air,
+    ( SELECT r.value
+           FROM readings r,
+            fermenters f,
+            sensors s 
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text)))        
+AND ((s.name)::text = 'Wort'::text))) AS wort,
+    ( SELECT r.value
+           FROM readings r,
+            fermenters f,
+            sensors s
+          WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermenterid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fridge 1'::text))) 
+AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
+    r2.runbatchid
+   FROM readings r2
+  GROUP BY r2.runbatchid
+  ORDER BY r2.runbatchid;
+
+
