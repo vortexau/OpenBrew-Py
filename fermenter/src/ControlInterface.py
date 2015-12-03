@@ -45,7 +45,7 @@ class SensorsFermenterData:
 
         if fermenter == 'fridgeone':
             selection = 'ok'
-            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatchid, cast(runtime as varchar) FROM V_FRIDGEONE order by runtime desc limit 200;'
+            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatchid, runtime FROM V_FRIDGEONE order by runtime desc limit 200;'
         elif fermenter == 'fridgetwo':
             selection = 'ok'
             query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch, cast(runtime as varchar) FROM V_FRIDGETWO order by runtime desc limit 200;'

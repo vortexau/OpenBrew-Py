@@ -159,7 +159,7 @@ REVOKE ALL ON SCHEMA public FROM openbrew;
 GRANT ALL ON SCHEMA public TO openbrew;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
-CREATE VIEW v_fridgetwo AS
+CREATE OR REPLACE VIEW v_fridgetwo AS
  SELECT ( SELECT r.value
            FROM readings r,
             fermentors f,
@@ -180,13 +180,14 @@ CREATE VIEW v_fridgetwo AS
             fermentors f,
             sensors s
           WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 2'::text))) AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
+    ( SELECT timestart FROM runbatch rb WHERE rb.id = r2.runbatchid) runtime,
     r2.runbatchid
    FROM readings r2
   GROUP BY r2.runbatchid
   ORDER BY r2.runbatchid;
 
 
-CREATE VIEW v_fridgeone AS
+CREATE OR REPLACE VIEW v_fridgeone AS
  SELECT ( SELECT r.value
            FROM readings r,
             fermentors f,
@@ -209,6 +210,7 @@ AND ((s.name)::text = 'Ambient'::text))) AS ambient,
             sensors s
           WHERE (((((r.sensorid = s.id) AND (r.runbatchid = r2.runbatchid)) AND (s.fermentorid = f.id)) AND (((f.name)::text = 'Ambient'::text) OR ((f.name)::text = 'Fermentor 1'::text))) 
 AND ((s.name)::text = 'Ambient High'::text))) AS ambienthigh,
+    ( SELECT timestart FROM runbatch rb WHERE rb.id = r2.runbatchid) runtime,
     r2.runbatchid
    FROM readings r2
   GROUP BY r2.runbatchid
