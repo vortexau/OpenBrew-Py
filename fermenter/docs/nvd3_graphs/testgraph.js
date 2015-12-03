@@ -51,17 +51,6 @@ app.controller('myCtrl', function($scope, dataService){
             },
         };
 
-        //$scope.data = sinAndCos();
-        //console.log($http);
-        //console.log(JSON.stringify($scope.data));
-
-        //$scope.data = $http({ method: 'GET', url: 'http://192.168.1.62:1469/sensors/fridgeone/'}).then(function successCallback(response) {
-        //    console.log(response.data);
-        //    return response.data;
-        //}, function failedCallback() { 
-        //
-        //});
-
         var request = {endPointUrl: 'http://192.168.1.62:1469/sensors/fridgeone/', params: ''};
 
         $scope.data = null;
@@ -72,35 +61,4 @@ app.controller('myCtrl', function($scope, dataService){
 
         console.log(JSON.stringify($scope.data));
 
-        /*Random Data Generator */
-        function sinAndCos() {
-            var sin = [],sin2 = [],
-                cos = [];
-
-            //Data is represented as an array of {x,y} pairs.
-            for (var i = 0; i < 100; i++) {
-                sin.push({x: i, y: Math.sin(i/10)});
-                sin2.push({x: i, y: i % 10 == 5 ? null : Math.sin(i/10) *0.25 + 0.5});
-                cos.push({x: i, y: .5 * Math.cos(i/10+ 2) + Math.random() / 10});
-            }
-
-            //Line chart data should be sent as an array of series objects.
-            return [
-                {
-                    values: sin,      //values - represents the array of {x,y} data points
-                    key: 'Ambient', //key  - the name of the series.
-                    color: '#ff7f0e'  //color - optional: choose your own line color.
-                },
-                {
-                    values: cos,
-                    key: 'Air',
-                    color: '#2ca02c'
-                },
-                {
-                    values: sin2,
-                    key: 'Wort',
-                    color: '#7777ff',
-                }
-            ];
-        };
-    })
+});
