@@ -1,11 +1,12 @@
 var app = angular.module('app', ['nvd3']);
 
 app.service('dataService', function($http) {
-    this.getData = function() {
+    this.getData = function(request) {
+        console.log(request);
         // $http() returns a $promise that we can add handlers with .then()
         return $http({
             method: 'GET',
-            url: 'http://192.168.1.62:1469/sensors/fridgeone/',
+            url: request.endPointUrl,
         });
     };
 });
@@ -61,8 +62,10 @@ app.controller('myCtrl', function($scope, dataService){
         //
         //});
 
+        var request = {endPointUrl: 'http://192.168.1.62:1469/sensors/fridgeone/', params: ''};
+
         $scope.data = null;
-        dataService.getData().then(function(dataResponse) {
+        dataService.getData(request).then(function(dataResponse) {
             console.log(dataResponse);
             $scope.data = dataResponse.data;
         });
