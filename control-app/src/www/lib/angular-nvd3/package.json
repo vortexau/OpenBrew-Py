@@ -1,0 +1,95 @@
+{
+  "_args": [
+    [
+      "angular-nvd3@^1.0.4",
+      "/home/james/Projects/OpenBrew-Py/fermenter/docs/nvd3_graphs"
+    ]
+  ],
+  "_from": "angular-nvd3@>=1.0.4 <2.0.0",
+  "_id": "angular-nvd3@1.0.4",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/angular-nvd3",
+  "_nodeVersion": "0.12.7",
+  "_npmUser": {
+    "email": "konstantin.skipor@gmail.com",
+    "name": "krispo"
+  },
+  "_npmVersion": "2.14.7",
+  "_phantomChildren": {},
+  "_requested": {
+    "name": "angular-nvd3",
+    "raw": "angular-nvd3@^1.0.4",
+    "rawSpec": "^1.0.4",
+    "scope": null,
+    "spec": ">=1.0.4 <2.0.0",
+    "type": "range"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/angular-nvd3/-/angular-nvd3-1.0.4.tgz",
+  "_shasum": "3621c9662162c768c1d8f9bbe4aea9dfb3d7777e",
+  "_shrinkwrap": null,
+  "_spec": "angular-nvd3@^1.0.4",
+  "_where": "/home/james/Projects/OpenBrew-Py/fermenter/docs/nvd3_graphs",
+  "author": {
+    "name": "Konstantin Skipor"
+  },
+  "bugs": {
+    "url": "https://github.com/krispo/angular-nvd3/issues"
+  },
+  "dependencies": {},
+  "description": "An AngularJS directive for NVD3.js reusable charting library",
+  "devDependencies": {
+    "angular": "^1.x",
+    "angular-mocks": "^1.x",
+    "d3": "^3.3",
+    "grunt": "^0.4.4",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.4.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "karma": "~0.10",
+    "karma-coverage": "^0.2.1",
+    "nvd3": "^1.7.1"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "3621c9662162c768c1d8f9bbe4aea9dfb3d7777e",
+    "tarball": "http://registry.npmjs.org/angular-nvd3/-/angular-nvd3-1.0.4.tgz"
+  },
+  "gitHead": "6a82fc5b0efe4f5be66eebc3bc5aa72a8b2d6878",
+  "homepage": "http://krispo.github.io/angular-nvd3",
+  "keywords": [
+    "angular",
+    "charts",
+    "d3",
+    "directive",
+    "nvd3",
+    "svg",
+    "visualization"
+  ],
+  "license": "MIT License",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "krispo",
+      "email": "konstantin.skipor@gmail.com"
+    }
+  ],
+  "name": "angular-nvd3",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krispo/angular-nvd3.git"
+  },
+  "scripts": {
+    "test": "karma start test/karma.conf.js",
+    "test-single-run": "karma start test/karma.conf.js --single-run"
+  },
+  "title": "AngularJS-nvD3",
+  "version": "1.0.4"
+}
