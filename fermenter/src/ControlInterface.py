@@ -45,10 +45,10 @@ class SensorsFermenterData:
 
         if fermenter == 'fridgeone':
             selection = 'ok'
-            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch FROM V_FRIDGEONE;'
+            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch, cast(runtime as varchar) FROM V_FRIDGEONE;'
         elif fermenter == 'fridgetwo':
             selection = 'ok'
-            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch FROM V_FRIDGETWO;'
+            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch, cast(runtime as varchar) FROM V_FRIDGETWO;'
         elif fermenter == 'ambient':
             selection = 'ok'
             query = 'SELECT * FROM V_AMBIENT;'
@@ -59,32 +59,14 @@ class SensorsFermenterData:
         cur.execute(query)
         data = cur.fetchall()
 
-        ''' 
-        coldata = []
-
-        coldata.append({"id": "time", "label": "Time", "type": "String"})
-        coldata.append({"id": "ambient-id", "label": "Ambient", "type": "number"})
-        coldata.append({"id": "air-id", "label": "Air temp", "type": "number"})
-        coldata.append({"id": "wort-id", "label": "Wort temp", "type": "number"})
-        coldata.append({"id": "ambienthigh-id", "label": "Ambient High temp", "type": "number"})
-
-        rowdata = []
-        for r in data:
-            rowdata.append(r)
-
-        ret = {"cols": coldata, "rows": rowdata}
-        
-        return ret
-        '''
-
         wort = {"key": "Wort temp", "color": "#7777ff", "values": [] }
         air  = {"key": "Air temp", "color": "#ff7f0e", "values": [] }
         ambient = {"key": "Ambient", "color": "#2ca02c", "values": [] }
 
         for row in data:
-            wort['values'].append({ "x": row['runbatch'], "y": row['wort']})
-            air['values'].append({ "x": row['runbatch'], "y": row['air']})
-            ambient['values'].append({ "x": row['runbatch'], "y": row['ambient']})
+            wort['values'].append({ "x": row['runtime'], "y": row['wort']})
+            air['values'].append({ "x": row['runtime'], "y": row['air']})
+            ambient['values'].append({ "x": row['runtime'], "y": row['ambient']})
 
         rowdata = [wort, air, ambient]
 
