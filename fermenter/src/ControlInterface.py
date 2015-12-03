@@ -45,7 +45,7 @@ class SensorsFermenterData:
 
         if fermenter == 'fridgeone':
             selection = 'ok'
-            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatchid, runtime FROM V_FRIDGEONE order by runtime desc limit 200;'
+            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatchid, runtime FROM V_FRIDGEONE order by runtime asc limit 200;'
         elif fermenter == 'fridgetwo':
             selection = 'ok'
             query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch, cast(runtime as varchar) FROM V_FRIDGETWO order by runtime desc limit 200;'
@@ -64,9 +64,9 @@ class SensorsFermenterData:
         ambient = {"key": "Ambient", "color": "#2ca02c", "values": [] }
 
         for row in data:
-            wort['values'].append({ "x": row['runbatch'], "y": row['wort']})
-            air['values'].append({ "x": row['runbatch'], "y": row['air']})
-            ambient['values'].append({ "x": row['runbatch'], "y": row['ambient']})
+            wort['values'].append({ "x": row['runbatchid'], "y": row['wort']})
+            air['values'].append({ "x": row['runbatchid'], "y": row['air']})
+            ambient['values'].append({ "x": row['runbatchid'], "y": row['ambient']})
 
         rowdata = [wort, air, ambient]
 
