@@ -114,7 +114,7 @@ COPY fermenters (id, name) FROM stdin;
 
 SELECT pg_catalog.setval('fermenters_id_seq', 1, false);
 
-COPY readings (id, value, "time", sensorid) FROM stdin;
+COPY readings (id, value, sensorid) FROM stdin;
 \.
 
 SELECT pg_catalog.setval('readings_id_seq', 1, false);
