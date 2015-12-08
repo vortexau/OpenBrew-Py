@@ -78,8 +78,6 @@ ALTER TABLE public.runbatch_id_seq OWNER TO openbrew;
 
 ALTER SEQUENCE runbatch_id_seq OWNED BY runbatch.id;
 
-
-
 CREATE TABLE sensors (
     id bigint NOT NULL,
     serial character varying(32),
@@ -101,6 +99,29 @@ ALTER TABLE public.sensors_id_seq OWNER TO openbrew;
 
 ALTER SEQUENCE sensors_id_seq OWNED BY sensors.id;
 
+CREATE TABLE beerbatches (
+    id bigint NOT NULL,
+    fermentorid bigint NOT NULL,
+    fermenting integer default '0',
+    fermentstart integer,
+    fermentend integer
+);
+
+ALTER TABLE public.beerbatches OWNER TO openbrew;
+
+CREATE SEQUENCE beerbatches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.beerbatches_id_seq OWNER TO openbrew;
+
+ALTER SEQUENCE beerbatches_id_seq OWNED BY beerbatches.id;
+
+-- Insert a table that tracks steps for a batch.
+
 ALTER TABLE ONLY fermentors ALTER COLUMN id SET DEFAULT nextval('fermentors_id_seq'::regclass);
 
 ALTER TABLE ONLY readings ALTER COLUMN id SET DEFAULT nextval('readings_id_seq'::regclass);
@@ -108,6 +129,8 @@ ALTER TABLE ONLY readings ALTER COLUMN id SET DEFAULT nextval('readings_id_seq':
 ALTER TABLE ONLY runbatch ALTER COLUMN id SET DEFAULT nextval('runbatch_id_seq'::regclass);
 
 ALTER TABLE ONLY sensors ALTER COLUMN id SET DEFAULT nextval('sensors_id_seq'::regclass);
+
+ALTER TABLE ONLY beerbatches ALTER COLUMN id SET DEFAULT nextval('beerbatches_id_seq::regclass);
 
 COPY fermentors (id, name) FROM stdin;
 1	Ambient
