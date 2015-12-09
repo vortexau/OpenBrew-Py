@@ -122,6 +122,29 @@ ALTER SEQUENCE beerbatches_id_seq OWNED BY beerbatches.id;
 
 -- Insert a table that tracks steps for a batch.
 
+CREATE TABLE batchsteps (
+    id bigint NOT NULL,
+    beerbatchid bigint NOT NULL,
+    stepname character varying(32) NOT NULL,
+    steptime integer NOT NULL,
+    stepcomplete tinyint default '0'
+);
+
+ALTER TABLE public.batchsteps OWNER TO openbrew;
+
+CREATE SEQUENCE batchsteps_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE public.batchsteps_id_seq OWNED BY batchsteps.id;
+
+
+--
+
+
 ALTER TABLE ONLY fermentors ALTER COLUMN id SET DEFAULT nextval('fermentors_id_seq'::regclass);
 
 ALTER TABLE ONLY readings ALTER COLUMN id SET DEFAULT nextval('readings_id_seq'::regclass);
@@ -130,7 +153,9 @@ ALTER TABLE ONLY runbatch ALTER COLUMN id SET DEFAULT nextval('runbatch_id_seq':
 
 ALTER TABLE ONLY sensors ALTER COLUMN id SET DEFAULT nextval('sensors_id_seq'::regclass);
 
-ALTER TABLE ONLY beerbatches ALTER COLUMN id SET DEFAULT nextval('beerbatches_id_seq::regclass);
+ALTER TABLE ONLY beerbatches ALTER COLUMN id SET DEFAULT nextval('beerbatches_id_seq'::regclass);
+
+ALTER TABLE ONLY batchsteps ALTER COLUMN id SET DEFAULT nextval('batchsteps_id_seq'::regclass);
 
 COPY fermentors (id, name) FROM stdin;
 1	Ambient
@@ -176,6 +201,18 @@ ALTER TABLE ONLY readings
 
 ALTER TABLE ONLY readings
     ADD CONSTRAINT runbatch_fk FOREIGN KEY (runbatchid) REFERENCES runbatch(id);
+
+ALTER TABLE ONLY beerbatch
+    ADD CONSTRAINT beerbatch_pk PRIMARY KEY (id);
+
+ALTER TABLE ONLY beerbatch
+    ADD CONSTRAINT fermentor_fk FOREIGN KEY (fermentorid) REFERENCES fermentors(id);
+
+ALTER TABLE ONLY batchsteps
+    ADD CONSTRAINT batchsteps_pk PRIMARY KEY (id);
+
+ALTER TABLE ONLY batchsteps
+    ADD CONSTRAINT beerbatch_fk FOREIGN KEY (beerbatchid) REFERENCES beerbatch(id); 
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM openbrew;
