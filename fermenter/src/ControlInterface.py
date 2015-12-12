@@ -15,7 +15,7 @@ class RootWebService:
     def index(self):
         return file('www/index.html')
 
-class SensorsFermentorData:
+class SensorsWebService:
     dbconn = None
 
     def __init__(self, dbconn):
@@ -26,6 +26,8 @@ class SensorsFermentorData:
     @cherrypy.tools.json_out()
     def fermentorone(self, batch=None, daterange=None):
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+
+        print 'Batch ' + batch + ' Date range ' + daterange
 
         cur = self.dbconn.cursor()
 
@@ -82,10 +84,20 @@ class SensorsAllData:
         #return json.dumps(cur.fetchall(), default=self.decimal_default)
         return cur.fetchall() # does not need to be dumped as JSON
 
-    def decimal_default(self, obj):
-        if isinstance(obj, decimal.Decimal):
-            return float(obj)
-        raise TypeError
+class BatchesWebService:
+
+    def __init__(self, dbconn):
+        self.dbconn = dbconn
+
+    @cherrypy.expose
+    @cherrypy.tools.accept(media='application/json')
+    @cherrypy.tools.json_out()
+    def index(self):
+        return 'get all batches in order'
+
+    @cherrypy.expose
+    def batch(self, batchid=0):
+        return 'Get batch details for batchid' + str(batchid)
 
 class FermentorsWebService:
 
@@ -109,26 +121,6 @@ class ControlInterface:
         self.dbconn = dbconn
         self.config = config
        
-        # Also: www.zacwitte.com/using-ssl-https-with-cherrypy-3-2-0-example 
-        '''
-        cherrypy.config.update({
-            'server.socket_host': '0.0.0.0',
-            'server.socket_port': 1469,
-        })
-
-        self.conf = {
-            '/': {
-               'tools.sessions.on': True,
-               'tools.staticdir.root': os.path.abspath(os.getcwd())
-            },
-            '/fermentors': {
-                'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
-                'tools.response_headers.on': True,
-                'tools.response_headers.headers': [('Content-Type', 'application/json')],
-            }
-        }
-        '''
-
         root_config = {
             '/': {
                'tools.sessions.on': True,
@@ -141,15 +133,24 @@ class ControlInterface:
              
              }
         }
+
         fermentors_config = {
             '/': {
 
             }
         }
 
+        batches_config = {
+            '/': {
+                'tools.response_headers.on': True,
+                'tools.response_headers.headers': [('Content-Type', 'application/json')],
+            }
+        }
+
         cherrypy.tree.mount(RootWebService(self.dbconn), '/', config=root_config)
-        cherrypy.tree.mount(SensorsFermentorData(self.dbconn), '/sensors', config=sensors_config)
+        cherrypy.tree.mount(SensorsWebService(self.dbconn), '/sensors', config=sensors_config)
         cherrypy.tree.mount(FermentorsWebService(self.dbconn), '/fermentors', config=sensors_config)
+        cherrypy.tree.mount(BatchesWebService(self.dbconn), '/batches', config=batches_config)
     
     def interface(self):
         cherrypy.config.update({'server.socket_host': '0.0.0.0', })
