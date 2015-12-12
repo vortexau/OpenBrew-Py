@@ -5,30 +5,17 @@ import json
 import cherrypy
 import decimal
 
-class SensorsWebService:
+class RootWebService:
     dbconn = None
   
     def __init__(self, dbconn):
         self.dbconn = dbconn
-        self.sensors_all_data = SensorsAllData(self.dbconn)
-        self.sensors_fermenter_data = SensorsFermenterData(self.dbconn)
 
-    def _cp_dispatch(self, vpath):
-        if len(vpath) == 1:
-            cherrypy.request.params['sensors'] = vpath.pop(0)
-            return self.sensors_all_data
-        if len(vpath) == 2:
-            cherrypy.request.params['sensors'] = vpath.pop(0)
-            cherrypy.request.params['fermenter'] = vpath.pop(0)
-            return self.sensors_fermenter_data
-
-        return vpath
-     
     @cherrypy.expose
     def index(self):
         return file('www/index.html')
 
-class SensorsFermenterData:
+class SensorsFermentorData:
     dbconn = None
 
     def __init__(self, dbconn):
@@ -37,39 +24,30 @@ class SensorsFermenterData:
     @cherrypy.expose
     @cherrypy.tools.accept(media='application/json')
     @cherrypy.tools.json_out()
-    def index(self, sensors, fermenter):
+    def fermentorone(self, batch=None, daterange=None):
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
-        selection = 'bad'
 
         cur = self.dbconn.cursor()
 
-        if fermenter == 'fridgeone':
-            selection = 'ok'
-            query = """SELECT   * 
-                FROM     ( 
-                  SELECT   Cast(ambient AS FLOAT), 
-                           Cast(air AS FLOAT), 
-                           Cast(wort AS FLOAT), 
-                           Cast(ambienthigh AS FLOAT), 
-                           runbatchid, 
-                           to_char(to_timestamp(runtime), 'YYYY-MM-DD HH24:MI:SS') as runtimedate,
-                           runtime 
-                  FROM     v_fridgeone 
-                  ORDER BY runtime DESC limit 400 ) AS foo 
-                ORDER BY runbatchid; """
-        elif fermenter == 'fridgetwo':
-            selection = 'ok'
-            query = 'SELECT cast(ambient as float), cast(air as float), cast(wort as float), cast(ambienthigh as float), runbatch, cast(runtime as varchar) FROM V_FRIDGETWO order by runtime desc limit 200;'
-        elif fermenter == 'ambient':
-            selection = 'ok'
-            query = 'SELECT * FROM V_AMBIENT;'
+        query = """SELECT   * 
+            FROM     ( 
+              SELECT   Cast(ambient AS FLOAT), 
+                       Cast(air AS FLOAT), 
+                       Cast(wort AS FLOAT), 
+                       Cast(ambienthigh AS FLOAT), 
+                       runbatchid, 
+                       to_char(to_timestamp(runtime), 'YYYY-MM-DD HH24:MI:SS') as runtimedate,
+                       runtime 
+              FROM     v_fridgeone 
+              ORDER BY runtime DESC limit 400 ) AS foo 
+            ORDER BY runbatchid; """
 
-        if selection == 'bad':
-            return [{'error': 'invalid selection'}]
-        
         cur.execute(query)
         data = cur.fetchall()
 
+        return self.formatdata(data) 
+
+    def formatdata(self, data):
         wort = {"key": "Wort temp", "color": "#7777ff", "values": [] }
         air  = {"key": "Air temp", "color": "#ff7f0e", "values": [] }
         ambient = {"key": "Ambient", "color": "#2ca02c", "values": [] }
@@ -82,6 +60,12 @@ class SensorsFermenterData:
         rowdata = [wort, air, ambient]
 
         return rowdata
+
+    @cherrypy.expose
+    @cherrypy.tools.accept(media='application/json')
+    @cherrypy.tools.json_out()
+    def other(self):
+        return 'something'
 
 class SensorsAllData:
     dbconn = None
@@ -102,6 +86,17 @@ class SensorsAllData:
         if isinstance(obj, decimal.Decimal):
             return float(obj)
         raise TypeError
+
+class FermentorsWebService:
+
+    def __init__(self, dbconn):
+        self.dbconn = dbconn
+
+    @cherrypy.expose
+    @cherrypy.tools.accept(media='application/json')
+    @cherrypy.tools.json_out()
+    def index(self, fermentor=0):
+        return 'Data for fermentor', fermentor
          
 class ControlInterface:
   
@@ -115,6 +110,7 @@ class ControlInterface:
         self.config = config
        
         # Also: www.zacwitte.com/using-ssl-https-with-cherrypy-3-2-0-example 
+        '''
         cherrypy.config.update({
             'server.socket_host': '0.0.0.0',
             'server.socket_port': 1469,
@@ -125,12 +121,38 @@ class ControlInterface:
                'tools.sessions.on': True,
                'tools.staticdir.root': os.path.abspath(os.getcwd())
             },
-            '/sensorsdede': {
+            '/fermentors': {
                 'request.dispatch': cherrypy.dispatch.MethodDispatcher(),
                 'tools.response_headers.on': True,
-                #'tools.response_headers.headers': [('Content-Type', 'application/json')],
+                'tools.response_headers.headers': [('Content-Type', 'application/json')],
             }
         }
+        '''
+
+        root_config = {
+            '/': {
+               'tools.sessions.on': True,
+               'tools.staticdir.root': os.path.abspath(os.getcwd())
+            },
+        }
+
+        sensors_config = {
+            '/': {
+             
+             }
+        }
+        fermentors_config = {
+            '/': {
+
+            }
+        }
+
+        cherrypy.tree.mount(RootWebService(self.dbconn), '/', config=root_config)
+        cherrypy.tree.mount(SensorsFermentorData(self.dbconn), '/sensors', config=sensors_config)
+        cherrypy.tree.mount(FermentorsWebService(self.dbconn), '/fermentors', config=sensors_config)
     
     def interface(self):
-        cherrypy.quickstart(SensorsWebService(self.dbconn), '/', self.conf)
+        cherrypy.config.update({'server.socket_host': '0.0.0.0', })
+        cherrypy.config.update({'server.socket_port': 1469, })
+        cherrypy.engine.start()
+        cherrypy.engine.block()
