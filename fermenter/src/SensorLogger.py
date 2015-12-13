@@ -55,7 +55,7 @@ class SensorLogger:
                 print 'Run Batch: ', runbatch
                 if os.path.isfile(thisSensor):
                     sensorTemp = self.getSensorTemp(thisSensor)
-                    print 'Temp is: ' + sensorTemp
+                    print 'Temp is: ' + str(sensorTemp)
                     self.logSensorTemp(sensorTemp, k, runbatch)
                     print '----'
                 else:
