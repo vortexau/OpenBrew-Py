@@ -103,7 +103,7 @@ class SensorLogger:
             # Valid file content
 
             # Look for the string 't=18062'
-            p = re.compile('t=\d+', re.MULTILINE)
+            p = re.compile('t=\d+|t=-\d+', re.MULTILINE)
             m = p.search(fileContent)
             if m:
                 # found a valid temp string.
@@ -113,7 +113,8 @@ class SensorLogger:
 
                 temp = fulltemp.split('=')
                 actualTemp = float(temp[1]) / 1000
-                return "{:3.3f}".format(actualTemp)
+                #return "{:3.3f}".format(actualTemp)
+                return actualTemp
 
 
 
