@@ -22,7 +22,9 @@ app.controller('myCtrl', function($scope, dataService){
                     bottom: 40,
                     left: 55
                 },
-                x: function(d){ return d.x; },
+                x: function(d) { 
+                    return d.x;
+                },
                 y: function(d){ return d.y; },
                 useInteractiveGuideline: true,
                 dispatch: {
@@ -32,7 +34,11 @@ app.controller('myCtrl', function($scope, dataService){
                     tooltipHide: function(e){ console.log("tooltipHide"); }
                 },
                 xAxis: {
-                    axisLabel: 'Time (ms)'
+                    axisLabel: 'Date/Time',
+                    tickFormat: function(d) {
+                        return moment.unix(d).format("dd MMM Do gggg HH:mm:ss");
+                    },
+                    staggerLabels: true,
                 },
                 yAxis: {
                     axisLabel: 'Temperature (c)',
@@ -51,11 +57,10 @@ app.controller('myCtrl', function($scope, dataService){
             },
         };
 
-        var request = {endPointUrl: 'http://192.168.1.62:1469/sensors/fridgeone/', params: ''};
+        var request = {endPointUrl: 'http://192.168.1.9:1469/sensors/fermentorone/', params: ''};
 
         $scope.data = null;
         dataService.getData(request).then(function(dataResponse) {
-            console.log(dataResponse);
             $scope.data = dataResponse.data;
         });
 
