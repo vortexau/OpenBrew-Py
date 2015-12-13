@@ -157,6 +157,14 @@ ALTER TABLE ONLY beerbatches ALTER COLUMN id SET DEFAULT nextval('beerbatches_id
 
 ALTER TABLE ONLY batchsteps ALTER COLUMN id SET DEFAULT nextval('batchsteps_id_seq'::regclass);
 
+-- Indexes
+
+CREATE INDEX ix_fermentor_name ON fermentors (name, id);
+CREATE INDEX ix_sensors_name_id ON sensors (name, fermentorid);
+CREATE INDEX ix_sensors_runbatch ON readings (sensorid, runbatchid);
+
+-- Insert some data.
+
 COPY fermentors (id, name) FROM stdin;
 1	Ambient
 2	Fermentor 1
