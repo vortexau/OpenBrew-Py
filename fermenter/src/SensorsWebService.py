@@ -13,7 +13,8 @@ class SensorsWebService:
     def fermentorone(self, batch=None, daterange=None):
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
 
-        print 'Batch ' + batch + ' Date range ' + daterange
+        # This gets them OK when they're set
+        #print 'Batch ' + batch + ' Date range ' + daterange
 
         cur = self.dbconn.cursor()
 
