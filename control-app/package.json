@@ -12,6 +12,7 @@
   "devDependencies": {
     "cordova-icon": "^0.3.0",
     "cordova-plugin-whitelist": "^1.2.0",
+    "crypto-js": "^3.1.5",
     "del": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.5.0",
@@ -36,6 +37,7 @@
     "org.apache.cordova.network-information",
     "org.apache.cordova.splashscreen",
     "org.apache.cordova.vibration",
-    "cordova-plugin-whitelist"
+    "cordova-plugin-whitelist",
+    "https://github.com/01org/AppSecurityApi.git#v1.4.0"
   ]
 }
