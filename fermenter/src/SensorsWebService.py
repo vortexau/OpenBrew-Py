@@ -18,8 +18,7 @@ class SensorsWebService:
 
         cur = self.dbconn.cursor()
 
-        query = """SELECT   *
-            FROM     (
+        query = """SELECT * FROM (
               SELECT   Cast(ambient AS FLOAT),
                        Cast(air AS FLOAT),
                        Cast(wort AS FLOAT),
@@ -29,7 +28,7 @@ class SensorsWebService:
                        runtime
               FROM     v_fridgeone
               ORDER BY runtime DESC limit 400 ) AS foo
-            ORDER BY runbatchid; """
+              ORDER BY runbatchid; """
 
         cur.execute(query)
         data = cur.fetchall()
