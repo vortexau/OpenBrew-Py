@@ -46,7 +46,11 @@ app.controller('FermentorStatusController', function($scope, dataService) {
                 }
             },
             xAxis: {
-                axisLabel: 'Time (ms)'
+                axisLabel: 'Date',
+                tickFormat: function(d) {
+                    return moment.unix(d).format("dd MMM Do gggg HH:mm:ss");
+                },
+                staggerLabels: true,
             },
             yAxis: {
                 axisLabel: 'Temperature (c)',
@@ -66,7 +70,7 @@ app.controller('FermentorStatusController', function($scope, dataService) {
     };
 
     var request = {
-        endPointUrl: 'http://192.168.1.62:1469/sensors/fridgeone/',
+        endPointUrl: 'http://192.168.1.9:1469/sensors/fermentorone/',
         params: ''
     };
 
