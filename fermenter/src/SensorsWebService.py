@@ -13,6 +13,17 @@ class SensorsWebService:
     def fermentorone(self, batch=None, daterange=None):
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
 
+        return getdata('fermentorone', batch, daterange)
+
+    @cherrypy.expose
+    @cherrypy.tools.accept(media='application/json')
+    @cherrypy.tools.json_out()
+    def fermentortwo(self, batch=None, daterange=None):
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
+
+        return getdata('fermentortwo', batch, daterange)
+
+    def getdata(self, fermentor=None, batch=None, daterange=None):
         # This gets them OK when they're set
         #print 'Batch ' + batch + ' Date range ' + daterange
 
