@@ -14,7 +14,8 @@ app.controller('FermentorStatusController', function($scope, dataService) {
 
     $scope.thing = 'Hello, world!';
 
-    $scope.options = {
+    //$scope.options = {
+    $scope.threedaychart = {
         chart: {
             type: 'lineChart',
             height: 450,
@@ -70,17 +71,21 @@ app.controller('FermentorStatusController', function($scope, dataService) {
     };
 
     var request = {
-        endPointUrl: 'http://192.168.1.9:1469/sensors/fermentorone/',
+        endPointUrl: 'http://192.168.1.9:1469/sensors/fermentor/one/',
         params: ''
     };
 
     $scope.data = null;
-    dataService.getData(request).then(function(dataResponse) {
+    dataService.getData(request)
+    .then(function successCallback(dataResponse) {
         console.log(dataResponse);
         $scope.data = dataResponse.data;
+        
+    }, function errorCallback(dataResponse) {
+    	console.log(dataResponse);
     });
 
-    console.log(JSON.stringify($scope.data));
+    //console.log(JSON.stringify($scope.data));
 
 });
 

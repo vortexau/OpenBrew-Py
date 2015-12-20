@@ -124,7 +124,7 @@ gulp.task('build', function (callback) {
         ['build-onsen-libs', 'build-openbrew-css', 'build-openbrew-js','buildindex'],
         'cordova',
         'android',
-	'ios',
+	    'ios',
         callback);
 
 });
