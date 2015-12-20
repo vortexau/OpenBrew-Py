@@ -57,7 +57,7 @@ gulp.task('buildindex', function () {
 });
 
 gulp.task('build-onsen-libs', function() {
-    return gulp.src(['src/www/scripts/*', 'src/hooks/**/*','src/www/icon.png', 'src/www/lib/**/*','src/res/**/*'], {base:"src/www"})
+    return gulp.src(['src/www/scripts/*', 'src/hooks/**/*','src/www/icon.png', 'src/www/splash.png', 'src/www/lib/**/*','src/res/**/*'], {base:"src/www"})
         .pipe(debug())
         .pipe(gulp.dest(builddir + '/www/'));
 });

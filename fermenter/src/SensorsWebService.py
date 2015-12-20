@@ -52,5 +52,13 @@ class SensorsWebService:
     @cherrypy.expose
     @cherrypy.tools.accept(media='application/json')
     @cherrypy.tools.json_out()
+    def maxtemp(self, fermentor='all', timeperiod=1):
+        # Time period is always in days.
+        if timeperiod < 1 or timeperiod > 31:
+            return {'error': 'Invalid time period'}
+        
+    @cherrypy.expose
+    @cherrypy.tools.accept(media='application/json')
+    @cherrypy.tools.json_out()
     def other(self):
         return 'something'

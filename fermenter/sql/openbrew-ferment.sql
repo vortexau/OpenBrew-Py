@@ -227,6 +227,61 @@ REVOKE ALL ON SCHEMA public FROM openbrew;
 GRANT ALL ON SCHEMA public TO openbrew;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
+
+CREATE OR REPLACE VIEW v_tempminmax_day AS
+SELECT sensorid, 
+       MIN(value), 
+       MAX(value) 
+FROM   readings 
+WHERE  runbatchid IN (SELECT id 
+                      FROM   runbatch 
+                      WHERE  timestart > (SELECT EXTRACT(epoch FROM NOW()) - 
+                                                 ( 86400 * 1 )))                                               
+GROUP  BY sensorid 
+ORDER  BY sensorid; 
+
+
+CREATE OR REPLACE VIEW v_tempminmax_threeday AS
+SELECT sensorid, 
+       MIN(value),
+       MAX(value)
+FROM   readings
+WHERE  runbatchid IN (SELECT id
+                      FROM   runbatch
+                      WHERE  timestart > (SELECT EXTRACT(epoch FROM NOW()) -
+                                                 ( 86400 * 3 )))
+GROUP  BY sensorid
+ORDER  BY sensorid;
+
+
+CREATE OR REPLACE VIEW v_tempminmax_week AS
+SELECT sensorid, 
+       MIN(value),
+       MAX(value)
+FROM   readings
+WHERE  runbatchid IN (SELECT id
+                      FROM   runbatch
+                      WHERE  timestart > (SELECT EXTRACT(epoch FROM NOW()) -
+                                                 ( 86400 * 7 )))
+GROUP  BY sensorid
+ORDER  BY sensorid;
+
+
+CREATE OR REPLACE VIEW v_tempminmax_month AS
+SELECT sensorid, 
+       MIN(value),
+       MAX(value)
+FROM   readings
+WHERE  runbatchid IN (SELECT id
+                      FROM   runbatch
+                      WHERE  timestart > (SELECT EXTRACT(epoch FROM NOW()) -
+                                                 ( 86400 * 31 )))
+GROUP  BY sensorid
+ORDER  BY sensorid;
+
+
+
+
 CREATE OR REPLACE VIEW v_fridgetwo AS
  SELECT ( SELECT r.value
            FROM readings r,
