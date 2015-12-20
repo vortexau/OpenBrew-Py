@@ -57,7 +57,7 @@ app.controller('myCtrl', function($scope, dataService){
             },
         };
 
-        var request = {endPointUrl: 'http://192.168.1.9:1469/sensors/fermentorone/', params: ''};
+        var request = {endPointUrl: 'http://192.168.1.9:1469/sensors/fermentor/one/', params: ''};
 
         $scope.data = null;
         dataService.getData(request).then(function(dataResponse) {

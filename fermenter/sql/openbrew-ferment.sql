@@ -1,4 +1,4 @@
-
+﻿
 
 SET statement_timeout = 0;
 SET client_encoding = 'UTF8';
@@ -127,7 +127,7 @@ CREATE TABLE batchsteps (
     beerbatchid bigint NOT NULL,
     stepname character varying(32) NOT NULL,
     steptime integer NOT NULL,
-    stepcomplete tinyint default '0'
+    stepcomplete integer default '0'
 );
 
 ALTER TABLE public.batchsteps OWNER TO openbrew;
@@ -139,7 +139,7 @@ CREATE SEQUENCE batchsteps_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.batchsteps_id_seq OWNED BY batchsteps.id;
+ALTER SEQUENCE public.batchsteps_id_seq OWNED BY batchsteps.id;
 
 
 --
@@ -210,17 +210,17 @@ ALTER TABLE ONLY readings
 ALTER TABLE ONLY readings
     ADD CONSTRAINT runbatch_fk FOREIGN KEY (runbatchid) REFERENCES runbatch(id);
 
-ALTER TABLE ONLY beerbatch
-    ADD CONSTRAINT beerbatch_pk PRIMARY KEY (id);
+ALTER TABLE ONLY beerbatches
+    ADD CONSTRAINT beerbatches_pk PRIMARY KEY (id);
 
-ALTER TABLE ONLY beerbatch
+ALTER TABLE ONLY beerbatches
     ADD CONSTRAINT fermentor_fk FOREIGN KEY (fermentorid) REFERENCES fermentors(id);
 
 ALTER TABLE ONLY batchsteps
     ADD CONSTRAINT batchsteps_pk PRIMARY KEY (id);
 
 ALTER TABLE ONLY batchsteps
-    ADD CONSTRAINT beerbatch_fk FOREIGN KEY (beerbatchid) REFERENCES beerbatch(id); 
+    ADD CONSTRAINT beerbatch_fk FOREIGN KEY (beerbatchid) REFERENCES beerbatches(id); 
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM openbrew;

@@ -10,12 +10,19 @@ class SensorsWebService:
     @cherrypy.expose
     @cherrypy.tools.accept(media='application/json')
     @cherrypy.tools.json_out()
-    def fermentorone(self, batch=None, daterange=None):
+    def fermentor(self, fermentor=None, batch=None, daterange='oneday'):
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
-
         # This gets them OK when they're set
-        #print 'Batch ' + batch + ' Date range ' + daterange
+        #print 'Fermentor ' + fermentor + 'Batch ' + batch + ' Date range ' + daterange
 
+        validdateranges = ['oneday','threeday', 'sevenday','all']
+
+        if daterange not in validdateranges:
+            return {"error": "Invalid date range"}
+
+        return self.getdata(fermentor, batch, daterange)
+
+    def getdata(self, fermentor=None, batch=None, daterange=None):
         cur = self.dbconn.cursor()
 
         query = """SELECT * FROM (
