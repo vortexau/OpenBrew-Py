@@ -36,16 +36,6 @@ class SensorLogger:
                 {'timestart': time.time()})
             runbatch = cur.fetchone()['id']
 
-            '''
-            cur.execute('select max(runbatch) runbatch from readings')
-            runbatch = cur.fetchone()
-
-            if runbatch['id'] is None:
-                runbatch = 1
-            else:
-                runbatch = runbatch['runbatch']
-                runbatch += 1
-            '''
             print 'Run batch : ', runbatch
 
             for k, v in sensors.iteritems():

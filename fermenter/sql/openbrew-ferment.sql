@@ -101,6 +101,8 @@ ALTER SEQUENCE sensors_id_seq OWNED BY sensors.id;
 
 CREATE TABLE beerbatches (
     id bigint NOT NULL,
+    batchname character varying(128) NOT NULL,
+    batchnotes text,
     fermentorid bigint NOT NULL,
     fermenting integer default '0',
     fermentstart integer,
@@ -279,8 +281,45 @@ WHERE  runbatchid IN (SELECT id
 GROUP  BY sensorid
 ORDER  BY sensorid;
 
-
-
+CREATE OR replace VIEW v_beerbatches 
+AS 
+  SELECT * 
+  FROM   (SELECT rd.id, 
+                 bb.id    "batchid", 
+                 bb.batchname, 
+                 fm.name  "fermentorname", 
+                 ss.name  "sensor", 
+                 rd.value "temp", 
+                 rb.id    runbatch, 
+                 rb.timestart 
+          FROM   beerbatches bb, 
+                 fermentors fm, 
+                 sensors ss, 
+                 readings rd, 
+                 runbatch rb 
+          WHERE  bb.fermentorid = fm.id 
+                 AND fm.id = ss.fermentorid 
+                 AND rd.sensorid = ss.id 
+                 AND rd.runbatchid = rb.id 
+          UNION 
+          SELECT rd.id, 
+                 0         "batchid", 
+                 'Ambient' "batchname", 
+                 fm.name   "fermentorname", 
+                 ss.name   "sensor", 
+                 rd.value  "temp", 
+                 rb.id     runbatch, 
+                 rb.timestart 
+          FROM   fermentors fm, 
+                 sensors ss, 
+                 readings rd, 
+                 runbatch rb 
+          WHERE  Lower(fm.name) = 'ambient' 
+                 AND ss.fermentorid = fm.id 
+                 AND rd.sensorid = ss.id 
+                 AND rd.runbatchid = rb.id) AS foo 
+  ORDER  BY id, 
+            batchid; 
 
 CREATE OR REPLACE VIEW v_fridgetwo AS
  SELECT ( SELECT r.value

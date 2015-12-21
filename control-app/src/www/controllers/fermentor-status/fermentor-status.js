@@ -1,5 +1,6 @@
 
 app.service('dataService', function($http) {
+    
     this.getData = function(request) {
         console.log(request);
         // $http() returns a $promise that we can add handlers with .then()
@@ -8,14 +9,13 @@ app.service('dataService', function($http) {
             url: request.endPointUrl,
         });
     };
+    
 });
+
 
 app.controller('FermentorStatusController', function($scope, dataService) {
 
-    $scope.thing = 'Hello, world!';
-
-    //$scope.options = {
-    $scope.threedaychart = {
+    $scope.chart = {
         chart: {
             type: 'lineChart',
             height: 450,
@@ -75,17 +75,15 @@ app.controller('FermentorStatusController', function($scope, dataService) {
         params: ''
     };
 
-    $scope.data = null;
+    $scope.threedaychartdata = null;
     dataService.getData(request)
     .then(function successCallback(dataResponse) {
         console.log(dataResponse);
-        $scope.data = dataResponse.data;
+        $scope.threedaychartdata = dataResponse.data;
         
     }, function errorCallback(dataResponse) {
-    	console.log(dataResponse);
+        console.log(dataResponse);
     });
-
-    //console.log(JSON.stringify($scope.data));
-
+    
 });
 
