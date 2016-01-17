@@ -25,6 +25,29 @@ class SensorsWebService:
     def getdata(self, fermentor=None, batch=None, daterange=None):
         cur = self.dbconn.cursor()
 
+        if fermentor = None:
+            qryfermentor = 'fridgeone'
+
+        if fermentor = 'one':
+            qryfermentor = 'fridgeone'
+ 
+        if fermentor = 'two':
+            qryfermentor = 'fridgetwo'
+ 
+
+        if daterange = None:
+            qrydaterange = 'runtime > 0 ';
+
+        if daterange = 'oneday':
+            qrydaterange = 'to_timestamp(runtime) >= NOW() -'1 day'::INTERVAL'
+
+        if daterange = 'threeday':
+            qrydaterange = 'to_timestamp(runtime) >= NOW() -'3 day'::INTERVAL'
+
+        if daterange = 'sevenday':
+            qrydaterange = 'to_timestamp(runtime) >= NOW() -'7 day'::INTERVAL
+        
+
         query = """SELECT * FROM (
               SELECT   Cast(ambient AS FLOAT),
                        Cast(air AS FLOAT),
@@ -33,8 +56,9 @@ class SensorsWebService:
                        runbatchid,
                        to_char(to_timestamp(runtime), 'YYYY-MM-DD HH24:MI:SS') as runtimedate,
                        runtime
-              FROM     v_fridgeone
-              ORDER BY runtime DESC limit 400 ) AS foo
+              FROM     v_""" + qryfermentor + """
+              WHERE """ + qrydaterange + """ 
+              ORDER BY runbatchid, runtime DESC ) AS foo
               ORDER BY runbatchid; """
 
         cur.execute(query)

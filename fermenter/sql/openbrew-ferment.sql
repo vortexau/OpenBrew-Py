@@ -281,6 +281,8 @@ WHERE  runbatchid IN (SELECT id
 GROUP  BY sensorid
 ORDER  BY sensorid;
 
+-- select * from v_fridgetwo where to_timestamp(runtime) >= NOW() -'1 day'::INTERVAL order by runbatchid;
+
 CREATE OR replace VIEW v_beerbatches 
 AS 
   SELECT * 
