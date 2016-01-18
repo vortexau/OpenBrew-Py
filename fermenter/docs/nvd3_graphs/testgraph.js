@@ -57,11 +57,25 @@ app.controller('myCtrl', function($scope, dataService){
             },
         };
 
-        var request = {endPointUrl: 'http://192.168.1.9:1469/sensors/fermentor/one/', params: ''};
+        var fermentoronereq = {endPointUrl: 'http://192.168.1.9:1469/sensors/fermentor/one/', params: ''};
+	var fermentortworeq = {endPointUrl: 'http://192.168.1.9:1469/sensors/fermentor/two/', params: ''};
 
-        $scope.data = null;
-        dataService.getData(request).then(function(dataResponse) {
-            $scope.data = dataResponse.data;
+        // Clone the above object so we can set our own variables on this version of it.
+        $scope.fermentoroneoptions = JSON.parse(JSON.stringify($scope.options));
+        $scope.fermentoroneoptions.title.text = 'Fermentor One - Temp Chart';
+
+        $scope.fermentortwooptions = JSON.parse(JSON.stringify($scope.options));
+        $scope.fermentortwooptions.title.text = 'Fermentor Two - Temp Chart';
+
+        $scope.fermentoronedata = null;
+        $scope.fermentortwodata = null;
+
+        dataService.getData(fermentoronereq).then(function(dataResponse) {
+            $scope.fermentoronedata = dataResponse.data;
+        });
+
+        dataService.getData(fermentortworeq).then(function(dataResponse) {
+            $scope.fermentortwodata = dataResponse.data;
         });
 
         console.log(JSON.stringify($scope.data));
