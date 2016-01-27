@@ -10,3 +10,7 @@ class RootWebService:
     @cherrypy.expose
     def index(self):
         return file('www/index.html')
+
+    @cherrypy.expose
+    def graphs(self):
+        return file('www/graphs.html')
