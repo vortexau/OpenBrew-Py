@@ -41,5 +41,7 @@ class FridgeControl:
 
             # Defined setpoint at this point? Check the steps in the beerbatch
 
+ 
+
             print "Sleeping for {0}".format(readwait)
             time.sleep(float(readwait))
