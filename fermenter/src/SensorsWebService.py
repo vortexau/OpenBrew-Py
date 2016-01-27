@@ -36,16 +36,21 @@ class SensorsWebService:
  
 
         if daterange = None:
-            qrydaterange = 'runtime > 0 ';
+            qrydaterange = "runtime > 0 " 
 
         if daterange = 'oneday':
-            qrydaterange = 'to_timestamp(runtime) >= NOW() -'1 day'::INTERVAL'
+            qrydaterange = "to_timestamp(runtime) >= NOW() -'1 day'::INTERVAL"
 
         if daterange = 'threeday':
-            qrydaterange = 'to_timestamp(runtime) >= NOW() -'3 day'::INTERVAL'
+            qrydaterange = "to_timestamp(runtime) >= NOW() -'3 day'::INTERVAL"
 
         if daterange = 'sevenday':
-            qrydaterange = 'to_timestamp(runtime) >= NOW() -'7 day'::INTERVAL
+            qrydaterange = "to_timestamp(runtime) >= NOW() -'7 day'::INTERVAL"
+
+        if daterange = 'all':
+            qrydaterange = "1=1"
+
+	# Need to also check a specific beerbatch here, and add to the below query.
         
 
         query = """SELECT * FROM (
