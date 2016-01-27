@@ -1,11 +1,10 @@
 import os, os.path
 import random, string, json, cherrypy
 
-from BatchesWebService import BatchesWebService
-from RootWebService import RootWebService
-from SensorsAllData import SensorsAllData
-from FermentorsWebService import FermentorsWebService
-from SensorsWebService import SensorsWebService
+from WebService.BatchesWebService import BatchesWebService
+from WebService.RootWebService import RootWebService
+from WebService.FermentorsWebService import FermentorsWebService
+from WebService.SensorsWebService import SensorsWebService
 
 class ControlInterface:
   
