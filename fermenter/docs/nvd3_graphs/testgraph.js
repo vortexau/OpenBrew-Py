@@ -53,7 +53,7 @@ app.controller('myCtrl', function($scope, dataService){
             },
             title: {
                 enable: true,
-                text: 'Fermenter One - Temp Chart'
+                text: 'No title set'
             },
         };
 
@@ -61,11 +61,11 @@ app.controller('myCtrl', function($scope, dataService){
 	var fermentortworeq = {endPointUrl: 'http://192.168.1.9:1469/sensors/fermentor/two/', params: ''};
 
         // Clone the above object so we can set our own variables on this version of it.
-        $scope.fermentoroneoptions = JSON.parse(JSON.stringify($scope.options));
-        $scope.fermentoroneoptions.title.text = 'Fermentor One - Temp Chart';
+        $scope.fermentoroneoptions = Object.assign({}, $scope.options);
+        $scope.fermentoroneoptions.title.text = 'Fermentor One - Last 24 hours - Temp Chart';
 
-        $scope.fermentortwooptions = JSON.parse(JSON.stringify($scope.options));
-        $scope.fermentortwooptions.title.text = 'Fermentor Two - Temp Chart';
+        $scope.fermentortwooptions = Object.assign({}, $scope.options);
+        $scope.fermentortwooptions.title.text = 'Fermentor Two - Last 24 Hours - Temp Chart';
 
         $scope.fermentoronedata = null;
         $scope.fermentortwodata = null;
