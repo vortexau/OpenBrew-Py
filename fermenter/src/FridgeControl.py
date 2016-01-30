@@ -23,7 +23,7 @@ class FridgeControl:
 
             # Is there a fermenting batch at this moment?
             # Check the DB to find out.
-            if fermenting = False:
+            if fermenting == False:
                 print "Nothing fermenting. Sleeping for {0}".format(nofermwait)
                 time.sleep(float(nofermwait))
                 continue

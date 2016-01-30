@@ -25,29 +25,29 @@ class SensorsWebService:
     def getdata(self, fermentor=None, batch=None, daterange=None):
         cur = self.dbconn.cursor()
 
-        if fermentor = None:
+        if fermentor == None:
             qryfermentor = 'fridgeone'
 
-        if fermentor = 'one':
+        if fermentor == 'one':
             qryfermentor = 'fridgeone'
  
-        if fermentor = 'two':
+        if fermentor == 'two':
             qryfermentor = 'fridgetwo'
  
 
-        if daterange = None:
+        if daterange == None:
             qrydaterange = "runtime > 0 " 
 
-        if daterange = 'oneday':
+        if daterange == 'oneday':
             qrydaterange = "to_timestamp(runtime) >= NOW() -'1 day'::INTERVAL"
 
-        if daterange = 'threeday':
+        if daterange == 'threeday':
             qrydaterange = "to_timestamp(runtime) >= NOW() -'3 day'::INTERVAL"
 
-        if daterange = 'sevenday':
+        if daterange == 'sevenday':
             qrydaterange = "to_timestamp(runtime) >= NOW() -'7 day'::INTERVAL"
 
-        if daterange = 'all':
+        if daterange == 'all':
             qrydaterange = "1=1"
 
 	# Need to also check a specific beerbatch here, and add to the below query.
