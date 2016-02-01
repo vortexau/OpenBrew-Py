@@ -1,0 +1,27 @@
+<html ng-app="app">
+<head>
+
+    <meta charset="utf-8"> 
+
+    <script src="node_modules/angular/angular.js"></script>
+    <script src="node_modules/d3/d3.js"></script> 
+    <script src="node_modules/nvd3/build/nv.d3.js"></script>
+    <script src="node_modules/angular-nvd3/dist/angular-nvd3.js"></script>
+    <script src="node_modules/moment/moment.js"></script>
+    <script src="testgraph.js"></script>
+
+<link rel="stylesheet" href="node_modules/nvd3/build/nv.d3.css">
+
+</head>
+<body>
+
+<div>
+    <div ng-controller="myCtrl">
+        <nvd3 options="options" data="fermentoronedata"></nvd3>
+
+        <nvd3 options="fermentortwooptions" data="fermentortwodata"></nvd3>
+    </div>
+</div>
+
+</body>
+</html>

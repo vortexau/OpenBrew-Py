@@ -1,0 +1,182 @@
+-- Get the values for a specific fermenter, with Ambient value.
+SELECT
+  r.id,
+  CAST(r.value AS float),
+  r.time,
+  s.name "sensor_name",
+  f.name "fermentor_name",
+  r.runbatch
+FROM readings r,
+     sensors s,
+     fermenters f
+WHERE r.sensorid = s.id
+AND s.fermenterid = f.id
+AND (f.name = 'Fridge 1'
+OR f.name = 'Ambient')
+-- add an order by r.time too.
+
+-- Example:
+ id | value  |    time    | sensor_name  | fermentor_name 
+----+--------+------------+--------------+----------------
+ 55 | 20.625 | 1448280126 | Air          | Fridge 1
+ 57 | 20.812 | 1448280247 | Wort         | Fridge 1
+ 59 | 19.062 | 1448280249 | Ambient      | Ambient
+ 60 | 26.187 | 1448280250 | Ambient High | Ambient
+ 61 | 20.625 | 1448280251 | Air          | Fridge 1
+ 63 | 20.812 | 1448280373 | Wort         | Fridge 1
+ 65 | 19.125 | 1448280374 | Ambient      | Ambient
+ 66 | 26.375 | 1448280375 | Ambient High | Ambient
+ 67 | 20.562 | 1448280376 | Air          | Fridge 1
+ 69 |  20.75 | 1448280498 | Wort         | Fridge 1
+ 71 | 19.187 | 1448280500 | Ambient      | Ambient
+ 72 | 26.375 | 1448280500 | Ambient High | Ambient
+
+-- All sensors for one fermenter
+SELECT (SELECT
+         s.id
+       FROM fermenters f,
+            sensors s
+       WHERE s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Ambient')
+       AS fridgeone_ambient,
+       (SELECT
+         s.id
+       FROM fermenters f,
+            sensors s
+       WHERE s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Air')
+       AS fridgeone_air,
+       (SELECT
+         s.id
+       FROM fermenters f,
+            sensors s
+       WHERE s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Wort')
+       AS fridgeone_wort,
+       (SELECT
+         s.id
+       FROM fermenters f,
+            sensors s
+       WHERE s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Ambient High')
+       AS fridgeone_ambienthigh
+FROM readings
+GROUP BY runbatch,
+         sensorid
+
+
+select max(value) as value, sensorid, runbatch from readings where sensorid = (SELECT
+         s.id
+       FROM fermenters f,
+            sensors s
+       WHERE s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Ambient High') group by sensorid, runbatch order by runbatch;
+
+SELECT (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Ambient')
+       AS fridgeone_ambient,
+       (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Air')
+       AS fridgeone_air,
+       (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Wort')
+       AS fridgeone_wort,
+       (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 1')
+       AND s.name = 'Ambient High')
+       AS fridgeone_ambienthigh,
+       RUNBATCH
+FROM READINGS R2
+GROUP BY R2.RUNBATCH
+ORDER BY R2.RUNBATCH;
+
+
+SELECT (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 2')
+       AND s.name = 'Ambient')
+       AS fridgetwo_ambient,
+       (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 2')
+       AND s.name = 'Air')
+       AS fridgetwo_air,
+       (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 2')
+       AND s.name = 'Wort')
+       AS fridgetwo_wort,
+       (SELECT
+         r.value
+       FROM readings r, fermenters f,
+            sensors s
+       WHERE r.sensorid = s.id 
+       AND r.runbatch = r2.runbatch 
+       AND s.fermenterid = f.id
+       AND (f.name = 'Ambient'
+       OR f.name = 'Fridge 2')
+       AND s.name = 'Ambient High')
+       AS fridgetwo_ambienthigh,
+       RUNBATCH
+FROM READINGS R2
+GROUP BY R2.RUNBATCH
+ORDER BY R2.RUNBATCH;

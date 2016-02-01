@@ -1,0 +1,3 @@
+configparser
+psycopg2
+cherrypy
