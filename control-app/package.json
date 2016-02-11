@@ -37,9 +37,9 @@
     "cordova-ios": "^3.5.0"
   },
   "cordovaPlugins": [
-    "org.apache.cordova.network-information",
+    "cordova-plugin-network-information",
     "org.apache.cordova.splashscreen",
-    "org.apache.cordova.vibration",
+    "cordova-plugin-vibration",
     "cordova-plugin-whitelist",
     "https://github.com/01org/AppSecurityApi.git#v1.4.0"
   ]
